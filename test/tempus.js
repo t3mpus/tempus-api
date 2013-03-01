@@ -3,13 +3,12 @@ var request = require('request'),
   assert = require('assert');
 describe('API', function(){
   before(function(done){
-    process.env.PORT = 3001;
+    process.env.PORT = process.env.TESTING_PORT || 3001;
     var server = require(__dirname + '/../index');
     server(done);
   });
   it('should return the title at /', function(done){
     request(host + '/', function(e,r,b){
-      console.log(b);
       var result = JSON.parse(b);
       assert(result.title, 'tempus');
       done();
