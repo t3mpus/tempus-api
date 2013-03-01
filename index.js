@@ -19,13 +19,16 @@ appygram.app_name = app.get('title');
 app.use(app.router);
 app.use(appygram.errorHandler);
 
-
 /*
  * routing
  */
 app.get('/', function(req, res){
   res.send({title:app.get('title')});
 });
+/*
+ * pass app to exported model functions
+ */
+require(__dirname + '/user')(app);
 
 /*
  * app.listen on port
