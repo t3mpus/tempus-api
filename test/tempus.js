@@ -56,5 +56,15 @@ describe('API', function(){
         });
       });
     });
+    it('should delete user information', function(done){
+      request.del(host + '/user/' + key, {json:true}, function(e,r,b){
+        request.get(host + '/user/' + key, {json:true}, function(e,r,b){
+          assert.equal(b.message, 'not found');
+          assert.equal(r.statusCode, 404);
+          assert.equal(b.notFound, true);
+          done();
+        });
+      });
+    });
   });
 });

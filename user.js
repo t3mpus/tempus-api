@@ -8,8 +8,7 @@ module.exports = function(app){
    */
   app.get('/user/:id', function(req, res){
     get(req.params.id, function(err, user, meta){
-      user.meta = meta;
-      res.send(err ? {error:err} : user);
+      res.send(meta.statusCode, err || user);
     });
   });
 
