@@ -14,4 +14,30 @@ describe('API', function(){
       done();
     });
   });
+  describe('Users', function(){
+    var key = '';
+    it('should add a new user', function(done){
+      request.post(host + '/user', {json:true, body:{
+        name:{
+          first:'will',
+          last:'laurance',
+          prefix:'mr.'
+        },
+        email:'w.laurance@gmail.com',
+      }}, function(e,r,b){
+        assert.notEqual(b.key, undefined);
+        key = b.key;
+        done();
+      });
+    });
+    it('should get user information', function(done){
+      request(host + '/user/' + key, {json:true}, function(e,r,b){
+        assert.equal(b.name.first, 'will');
+        assert.equal(b.name.last, 'laurance');
+        assert.equal(b.name.prefix, 'mr.');
+        assert.equal(b.email, 'w.laurance@gmail.com');
+        done();
+      });
+    });
+  });
 });

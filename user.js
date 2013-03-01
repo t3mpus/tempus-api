@@ -11,7 +11,7 @@ module.exports = function(app){
 
   app.post('/user', function(req, res){
     db().save(bucket, key_store(), req.body, function(err, user, meta){
-      res.send(err ? {error:err} : meta);
+      res.send(err ? {error:err} : {key:meta.key});
     });
   });
 
