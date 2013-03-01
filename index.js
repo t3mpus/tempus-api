@@ -16,6 +16,7 @@ appygram.app_name = app.get('title');
 /*
  * app.use
  */
+app.use(express.bodyParser());
 app.use(app.router);
 app.use(appygram.errorHandler);
 
