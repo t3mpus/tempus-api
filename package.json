@@ -34,5 +34,10 @@
   "subdomain": "wlaurance.tempus",
   "engines": {
     "node": "0.8.x"
-  }
+  },
+  "domains": [
+    "t3mp.us",
+    "api.t3mp.us",
+    "www.t3mp.us"
+  ]
 }
