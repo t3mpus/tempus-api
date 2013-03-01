@@ -39,5 +39,22 @@ describe('API', function(){
         done();
       });
     });
+    it('should update user information', function(done){
+      request.put(host + '/user/' + key, {json:true, body:{
+        name:{
+          first:'bill'
+        },
+        email:'w.laurance@yahoo.com'
+      }}, function(e,r,b){
+        assert.equal(e,undefined);
+        request.get(host + '/user/' + key, {json:true}, function(e,r,b){
+          assert.equal(b.name.first, 'bill');
+          assert.equal(b.name.last, 'laurance');
+          assert.equal(b.name.prefix, 'mr.');
+          assert.equal(b.email, 'w.laurance@yahoo.com');
+          done();
+        });
+      });
+    });
   });
 });
