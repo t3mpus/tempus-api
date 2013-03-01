@@ -1,0 +1,23 @@
+{
+  "name": "tempus",
+  "version": "0.0.0",
+  "description": "Time Tracking by Father Time",
+  "main": "index.js",
+  "scripts": {
+    "test": "mocha"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/wlaurance/tempus"
+  },
+  "keywords": [
+    "Time",
+    "Tracking",
+    "Father",
+    "Time"
+  ],
+  "author": "Will S. Laurance",
+  "license": "MIT",
+  "readmeFilename": "README.md",
+  "private":true
+}
