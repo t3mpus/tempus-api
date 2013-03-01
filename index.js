@@ -1,7 +1,11 @@
 var express = require('express'),
     app = express(),
     appygram = require('appygram');
-
+/*
+ * exports
+ */
+var ready;
+module.exports = function(done){ready = done;};
 /*
  * configuration
  */
@@ -29,5 +33,8 @@ app.get('/', function(req, res){
 var port = process.env.PORT || 3000;
 app.listen(port, function(){
   console.log(app.get('title') + ' listening on port ' + port);
-});
+  if (typeof ready !== 'undefined'){
+    ready();
+  }
 
+});
