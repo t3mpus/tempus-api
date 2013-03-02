@@ -40,6 +40,7 @@ describe('API', function(){
         assert.equal(b.name.last, 'laurance');
         assert.equal(b.name.prefix, 'mr.');
         assert.equal(b.email, 'w.laurance@gmail.com');
+        assert.equal((new Date() >= new Date(b.date_created)), true);
         done();
       });
     });
