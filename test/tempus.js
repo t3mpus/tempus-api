@@ -3,9 +3,13 @@ var request = require('request'),
   assert = require('assert');
 describe('API', function(){
   before(function(done){
-    process.env.PORT = process.env.TESTING_PORT || 3001;
-    var server = require(__dirname + '/../index');
-    server(done);
+    if(!process.env.TESTING_HOST){
+      process.env.PORT = process.env.TESTING_PORT || 3001;
+      var server = require(__dirname + '/../index');
+      server(done);
+    } else {
+      done();
+    }
   });
   it('should return the title at /', function(done){
     request(host + '/', function(e,r,b){
