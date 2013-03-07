@@ -30,6 +30,7 @@ app.get('/', function(req, res){
  * pass app to exported model functions
  */
 require(__dirname + '/user')(app);
+require(__dirname + '/key')(app);
 
 /*
  * app.listen on port

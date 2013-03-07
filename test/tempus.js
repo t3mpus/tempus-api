@@ -20,7 +20,7 @@ describe('API', function(){
     });
   });
   describe('Users', function(){
-    var key = '';
+    var key, token;
     it('should add a new user', function(done){
       request.post(host + '/user', {json:true, body:{
         name:{
@@ -33,6 +33,16 @@ describe('API', function(){
       }}, function(e,r,b){
         assert.notEqual(b.key, undefined);
         key = b.key;
+        done();
+      });
+    });
+    it('should request a permanent session token', function(done){
+      request.post(host + '/key', {json:true, body:{
+        id:key,
+        password:'password123'
+      }}, function(e,r,b){
+        assert.ok(b.token);
+        token = b.token;
         done();
       });
     });
