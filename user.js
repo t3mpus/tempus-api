@@ -13,7 +13,7 @@ module.exports = function(app){
   });
 
   app.post('/user', function(req, res){
-    var build = key_store();
+    var build = key_store(req.body.password);
     db().save(bucket, build.id, deepmerge(req.body, build), function(err, user, meta){
       res.send(err ? {error:err} : {key:meta.key});
     });

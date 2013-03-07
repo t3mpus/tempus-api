@@ -1,6 +1,7 @@
 var request = require('request'),
   host = process.env.TESTING_HOST || 'http://127.0.0.1:3001',
-  assert = require('assert');
+  assert = require('assert'),
+  crypto = require('crypto');
 describe('API', function(){
   before(function(done){
     if(!process.env.TESTING_HOST){
@@ -28,6 +29,7 @@ describe('API', function(){
           prefix:'mr.'
         },
         email:'w.laurance@gmail.com',
+        password:'password123'
       }}, function(e,r,b){
         assert.notEqual(b.key, undefined);
         key = b.key;
@@ -41,6 +43,12 @@ describe('API', function(){
         assert.equal(b.name.prefix, 'mr.');
         assert.equal(b.email, 'w.laurance@gmail.com');
         assert.equal((new Date() >= new Date(b.date_created)), true);
+        assert.ok(b.hash_pass);
+        assert.ok(b.id);
+        assert.ok(b.salt);
+        var hash = crypto.createHash('sha256');
+        hash.update(b.salt + 'password123', 'utf8');
+        assert.equal(b.hash_pass, hash.digest('hex'));
         done();
       });
     });

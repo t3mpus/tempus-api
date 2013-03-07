@@ -26,7 +26,8 @@
     "appygram": "~0.1.3",
     "request": "~2.14.0",
     "riak-js": "~0.9.4pre3",
-    "deepmerge": "~0.2.5"
+    "deepmerge": "~0.2.5",
+    "uuid": "~1.4.0"
   },
   "devDependencies": {
     "mocha": "~1.8.1"
