@@ -2,6 +2,11 @@ var request = require('request'),
   host = process.env.TESTING_HOST || 'http://127.0.0.1:3001',
   assert = require('assert'),
   crypto = require('crypto');
+
+/*
+ * Vars used in tests
+ */
+var key, token;
 describe('API', function(){
   before(function(done){
     if(!process.env.TESTING_HOST){
@@ -21,7 +26,6 @@ describe('API', function(){
     });
   });
   describe('Users', function(){
-    var key, token;
     it('should add a new user', function(done){
       request.post(host + '/user', {json:true, body:{
         name:{
@@ -80,6 +84,38 @@ describe('API', function(){
         });
       });
     });
+
+  });
+  describe('Keys', function(){
+    it('should throw an error if post key body is missing parameters', function(done){
+      request.post(host + '/key', {json:true, body:{}}, function(e,r,b){
+        assert.equal(406, r.statusCode);
+        assert.ok(b.error);
+        done();
+      });
+    });
+    it('should throw an error if id doesn\'t exist', function(done){
+      request.post(host + '/key', {json:true, body:{
+        id:'nonexsistentdbkey123',
+        password:'yeah...no'
+      }}, function(e,r,b){
+        assert.equal(r.statusCode, 404);
+        assert.equal(b.error.notFound, true);
+        done();
+      });
+    });
+    it('should throw an error if password is incorrect', function(done){
+      request.post(host + '/key', {json:true, body:{
+        id:key,
+        password:'notmypassword'
+      }}, function(e,r,b){
+        assert.equal(r.statusCode, 401);
+        assert.equal(b.error, 'unauthorized - incorrect credentials');
+        done();
+      });
+    });
+  });
+  describe('User delete', function(){
     it('should delete user information', function(done){
       request.del(host + '/user/' + key, {json:true}, function(e,r,b){
         request.get(host + '/user/' + key, {json:true}, function(e,r,b){

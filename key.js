@@ -1,7 +1,8 @@
 var db = require(__dirname + '/lib/db'),
-  bucket = 'keys';
+  bucket = 'keys',
+  middleware = require(__dirname + '/lib/middleware');
 module.exports = function(app){
-  app.post('/key', function(req, res){
+  app.post('/key', middleware.verifyPassword, function(req, res){
     res.send({
       token:'blah'
     });
