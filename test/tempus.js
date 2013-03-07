@@ -12,10 +12,11 @@ describe('API', function(){
       done();
     }
   });
-  it('should return the title at /', function(done){
+  it('should return the title and version at /', function(done){
     request(host + '/', function(e,r,b){
       var result = JSON.parse(b);
-      assert(result.title, 'tempus');
+      assert.equal(result.title, 'tempus');
+      assert.equal(result.version, require(__dirname + '/../package').version);
       done();
     });
   });

@@ -10,6 +10,7 @@ module.exports = function(done){ready = done;};
  * configuration
  */
 app.set('title', 'tempus');
+app.set('version', require('./package').version);
 appygram.setApiKey(process.env.APPYGRAM_API_KEY || 'a0e802dcff1fe554571ae58b255ca2605451c6b5');
 appygram.app_name = app.get('title');
 
@@ -24,7 +25,7 @@ app.use(appygram.errorHandler);
  * routing
  */
 app.get('/', function(req, res){
-  res.send({title:app.get('title')});
+  res.send({title:app.get('title'), version:app.get('version')});
 });
 /*
  * pass app to exported model functions
