@@ -28,8 +28,8 @@
     "riak-js": "~0.9.4pre3",
     "deepmerge": "~0.2.5",
     "uuid": "~1.4.0",
-    "tokenish": "~0.1.1",
-    "tokenish-riak": "0.0.2",
+    "tokenish": "~0.1.2",
+    "tokenish-riak": "0.0.3",
     "underscore": "~1.4.4"
   },
   "devDependencies": {
