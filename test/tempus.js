@@ -1,7 +1,8 @@
 var request = require('request'),
   host = process.env.TESTING_HOST || 'http://127.0.0.1:3001',
   assert = require('assert'),
-  crypto = require('crypto');
+  crypto = require('crypto'),
+  _ = require('underscore');
 
 /*
  * Vars used in tests
@@ -112,6 +113,43 @@ describe('API', function(){
         assert.equal(r.statusCode, 401);
         assert.equal(b.error, 'unauthorized - incorrect credentials');
         done();
+      });
+    });
+    it('should list keys for a user if password is correct', function(done){
+      request.post(host + '/keys', {json:true, body:{
+        id:key,
+        password:'password123'
+      }}, function(e,r,b){
+        assert.ok(b.tokens);
+        assert.equal(b.tokens.length > 0, true);
+        done();
+      });
+    });
+    it('should delete a key for the list of tokens', function(done){
+      request.post(host + '/key', {json:true, body:{
+        id:key,
+        password:'password123'
+      }}, function(e,r,b){
+        var testToken = b.token;
+        request.post(host + '/keys', {json:true, body:{
+          id:key,
+          password:'password123'
+        }}, function(e2,r2,b2){
+          assert.notEqual(_.indexOf(b2.tokens, testToken), -1);
+          request.del(host + '/key', {json:true, body:{
+            id:key,
+            password:'password123',
+            token:testToken
+          }}, function(e3,r3,b3){
+            request.post(host + '/keys', {json:true, body:{
+              id:key,
+              password:'password123'
+            }}, function(e4,r4,b4){
+              assert.equal(_.indexOf(b4.tokens, testToken), -1);
+              done();
+            });
+          });
+        });
       });
     });
   });
