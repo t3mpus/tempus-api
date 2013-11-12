@@ -1,4 +1,5 @@
 tempus
 ======
 
-Time tracking by father time
+Track time effortlessly
+
