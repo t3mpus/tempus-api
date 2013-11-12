@@ -5,7 +5,7 @@
   "private": true,
   "main": "index.js",
   "scripts": {
-    "test": "./node_modules/.bin/mocha",
+    "test": "./node_modules/.bin/mocha --compilers coffee:coffee-script",
     "start": "./node_modules/.bin/coffee app.coffee"
   },
   "repository": {
@@ -18,7 +18,9 @@
     "url": "https://github.com/wlaurance/tempus/issues"
   },
   "devDependencies": {
-    "mocha": "~1.14.0"
+    "mocha": "~1.14.0",
+    "request": "~2.27.0",
+    "should": "~2.1.0"
   },
   "dependencies": {
     "coffee-script": "~1.6.3",
@@ -26,6 +28,6 @@
   },
   "engines": {
     "node": "0.10.x",
-    "npm" : "1.3.x"
+    "npm": "1.3.x"
   }
 }
