@@ -1,5 +1,5 @@
 express = require 'express'
-info = require 'package'
+info = require './package'
 http = require 'http'
 
 app = express()
