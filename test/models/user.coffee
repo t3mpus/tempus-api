@@ -24,3 +24,14 @@ describe 'User Model', ->
     testuser.should.have.property 'salt'
     testuser.should.not.have.property 'password'
     testuser.valid().should.be.true
+
+  it 'if password is intially password is initally passed to constructor make credential', ->
+    testuser = new User
+      firstName: 'hi'
+      lastName: 'bye'
+      email: 'test@user.com'
+      password: 'fakepassword'
+    testuser.should.have.property 'hash'
+    testuser.should.have.property 'salt'
+    testuser.should.not.have.property 'password'
+    testuser.valid().should.be.true

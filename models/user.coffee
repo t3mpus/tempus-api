@@ -9,6 +9,10 @@ class User
 
     @required = ['firstName', 'lastName', 'email', 'hash', 'salt']
 
+    if @password
+      @makeCredentials @password
+      delete @password
+
   makeCredentials: (password) ->
     sha = crypto.createHash 'sha1'
     salt = uuid.v1()
