@@ -5,7 +5,7 @@
   "private": true,
   "main": "index.js",
   "scripts": {
-    "test": "./node_modules/.bin/mocha --compilers coffee:coffee-script",
+    "test": "./node_modules/.bin/mocha --compilers coffee:coffee-script --recursive",
     "start": "./node_modules/.bin/coffee app.coffee"
   },
   "repository": {
@@ -24,7 +24,8 @@
   },
   "dependencies": {
     "coffee-script": "~1.6.3",
-    "express": "~3.4.4"
+    "express": "~3.4.4",
+    "uuid": "~1.4.1"
   },
   "engines": {
     "node": "0.10.x",
