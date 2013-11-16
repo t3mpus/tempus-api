@@ -5,7 +5,7 @@ class TimeEntry
     _.each props, (v, k) =>
       @[k] = v
 
-    @required = ['start', 'end', 'duration', 'projectId', 'message']
+    @required = ['start', 'end', 'duration', 'projectId', 'message', 'clientId']
 
   validate: ->
     _.every @required, (property) =>
