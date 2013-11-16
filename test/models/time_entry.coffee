@@ -21,5 +21,5 @@ describe 'TimeEntry Model', ->
     end.should.be.instanceof Date
     t.projectId.should.be.equal 10
     t.message.should.be.equal 'message goes here'
-    (t.validate).should.be.true
+    t.validate().should.be.true
 
