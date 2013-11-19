@@ -1,10 +1,12 @@
 User = require '../../models/user'
 should = require 'should'
+uuid = require 'uuid'
 
 makeTestUser = -> new User
   firstName: 'Test'
   lastName: 'User'
   email: 'test@user.com'
+  id: uuid.v1()
 
 describe 'User Model', ->
   it 'should be able to construct a new user', ->

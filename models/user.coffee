@@ -7,15 +7,18 @@ class User
     _.each options, (v, k) =>
       @[k] = v
 
-    @required = ['firstName', 'lastName', 'email', 'hash', 'salt']
+    @required = ['firstName', 'lastName', 'email', 'hash', 'salt', 'id']
 
     if @password
       @makeCredentials @password
       delete @password
 
+    if not @id
+      @id = uuid.v1()
+
   makeCredentials: (password) ->
     sha = crypto.createHash 'sha1'
-    salt = uuid.v1()
+    salt = uuid.v1() + new Date().toJSON()
     sha.update "#{password}#{salt}"
     hash = sha.digest 'hex'
     if (salt and hash)
