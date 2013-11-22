@@ -1,0 +1,8 @@
+{
+  "dev": {
+    "driver": "pg",
+    "user": "tempus",
+    "password": "t3mpus",
+    "database": "tempus_dev"
+  }
+}
