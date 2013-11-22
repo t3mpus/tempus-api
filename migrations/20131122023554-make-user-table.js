@@ -16,5 +16,6 @@ exports.up = function(db, callback) {
 };
 
 exports.down = function(db, callback) {
-
+  console.log('not dropping table users');
+  callback();
 };
