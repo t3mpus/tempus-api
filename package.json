@@ -20,7 +20,8 @@
   "devDependencies": {
     "mocha": "~1.14.0",
     "request": "~2.27.0",
-    "should": "~2.1.0"
+    "should": "~2.1.0",
+    "db-migrate": "~0.6.2"
   },
   "dependencies": {
     "coffee-script": "~1.6.3",
