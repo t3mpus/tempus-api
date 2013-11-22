@@ -7,22 +7,10 @@ class TimeEntry
       @[k] = v
 
     @required = ['start', 'end', 'duration', 'message']
-    @genearted = ['id']
-
-    @genId() if not @id
-
 
   validate: ->
-    _.every _.union(@required, @genearted), (property) =>
+    _.every @required, (property) =>
       typeof @[property] isnt 'undefined'
-
-  genId: ()->
-    sha = crypto.createHash 'sha256'
-    sha.update _.reduce @required, (a,b)=>
-      return a + @[b]
-
-    @id = sha.digest 'hex'
-
 
 module.exports = TimeEntry
 
