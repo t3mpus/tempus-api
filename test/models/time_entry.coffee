@@ -19,11 +19,5 @@ describe 'TimeEntry Model', ->
     start.should.be.instanceof Date
     end.should.be.instanceof Date
     t.message.should.be.equal 'message goes here'
-    t.id.should.have.property 'length', 64
     t.validate().should.be.true
-
-  it 'should gen unique ids for different messages', ->
-    t = do makeT
-    ta = makeT 100
-    t.id.should.not.be.equal ta.id
 

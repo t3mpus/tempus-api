@@ -20,12 +20,14 @@
   "devDependencies": {
     "mocha": "~1.14.0",
     "request": "~2.27.0",
-    "should": "~2.1.0"
+    "should": "~2.1.0",
+    "db-migrate": "~0.6.2"
   },
   "dependencies": {
     "coffee-script": "~1.6.3",
     "express": "~3.4.4",
-    "uuid": "~1.4.1"
+    "uuid": "~1.4.1",
+    "pg": "~2.8.3"
   },
   "engines": {
     "node": "0.10.x",

@@ -7,7 +7,7 @@ class User
     _.each options, (v, k) =>
       @[k] = v
 
-    @required = ['firstName', 'lastName', 'email', 'hash', 'salt', 'id']
+    @required = ['firstName', 'lastName', 'email', 'hash', 'salt']
 
     if @password
       @makeCredentials @password
