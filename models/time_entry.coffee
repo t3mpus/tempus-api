@@ -1,5 +1,4 @@
 _ = require 'underscore'
-crypto = require 'crypto'
 
 class TimeEntry
   constructor: (props) ->
