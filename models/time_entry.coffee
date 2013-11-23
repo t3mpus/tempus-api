@@ -1,15 +1,9 @@
-_ = require 'underscore'
+BaseModel = require './base'
 
-class TimeEntry
+class TimeEntry extends BaseModel
   constructor: (props) ->
-    _.each props, (v, k) =>
-      @[k] = v
-
+    super props
     @required = ['start', 'end', 'duration', 'message']
-
-  validate: ->
-    _.every @required, (property) =>
-      typeof @[property] isnt 'undefined'
 
 module.exports = TimeEntry
 

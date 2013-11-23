@@ -1,11 +1,10 @@
-_ = require 'underscore'
+BaseModel = require './base'
 crypto = require 'crypto'
 uuid = require 'uuid'
 
-class User
+class User extends BaseModel
   constructor: (options) ->
-    _.each options, (v, k) =>
-      @[k] = v
+    super options
 
     @required = ['firstName', 'lastName', 'email', 'hash', 'salt']
 
@@ -24,9 +23,5 @@ class User
     if (salt and hash)
       @salt = salt
       @hash = hash
-
-  valid: () ->
-    _.every @required, (property) =>
-      typeof @[property] isnt 'undefined'
 
 module.exports = User

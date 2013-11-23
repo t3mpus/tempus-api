@@ -24,7 +24,7 @@ describe 'User Model', ->
     testuser.should.have.property 'hash'
     testuser.should.have.property 'salt'
     testuser.should.not.have.property 'password'
-    testuser.valid().should.be.true
+    testuser.validate().should.be.true
 
   it 'if password is intially password is initally passed to constructor make credential', ->
     testuser = new User
@@ -35,4 +35,4 @@ describe 'User Model', ->
     testuser.should.have.property 'hash'
     testuser.should.have.property 'salt'
     testuser.should.not.have.property 'password'
-    testuser.valid().should.be.true
+    testuser.validate().should.be.true

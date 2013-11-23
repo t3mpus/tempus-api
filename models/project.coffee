@@ -1,15 +1,9 @@
-_ = require 'underscore'
+BaseModel = require './base'
 
-class Project
+class Project extends BaseModel
   constructor: (props) ->
-    _.each props, (v, k) =>
-      @[k] = v
-
+    super props
     @required = ['name', 'createdDate', 'postHooks']
-
-  validate: ->
-    _.every @required, (property) =>
-      typeof @[property] isnt 'undefined'
 
 module.exports = Project
 
