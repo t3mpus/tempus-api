@@ -4,6 +4,6 @@ module.exports = (done)->
   if started
     done()
   else
-    require('../app') ->
+    require(__dirname + '/../app') ->
       started = yes
       done()
