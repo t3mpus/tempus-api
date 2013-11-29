@@ -11,7 +11,6 @@ describe 'Users', ->
     startApp -> UserTestHelper.addUsers done
 
   it 'Get all Users', (done)->
-    console.log base '/users'
     request (base '/users'), options, (e,r,b)->
       r.statusCode.should.be.equal 200
       b.should.have.property 'users'
