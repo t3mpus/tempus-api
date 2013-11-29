@@ -1,3 +1,4 @@
+async = require 'async'
 should = require 'should'
 
 exports.addUsers = (done) ->

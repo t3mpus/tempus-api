@@ -9,5 +9,8 @@ class Base
     _.every @required, (property) =>
       typeof @[property] isnt 'undefined'
 
+  columns: ->
+    _.union @required, ['id']
+
 module.exports = Base
 

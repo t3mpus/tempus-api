@@ -2,6 +2,8 @@ express = require 'express'
 info = require './package'
 http = require 'http'
 
+users = require './routes/users'
+
 done = null
 
 app = express()
@@ -9,6 +11,8 @@ app = express()
 app.use express.logger()
 
 app.get '/', (req, res)-> res.send version:info.version
+
+users app
 
 port = process.env.PORT || 3000
 
