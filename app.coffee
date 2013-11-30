@@ -9,6 +9,7 @@ done = null
 app = express()
 
 app.use express.logger()
+app.use express.bodyParser()
 
 app.get '/', (req, res)-> res.send version:info.version
 

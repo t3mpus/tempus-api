@@ -12,9 +12,6 @@ class User extends BaseModel
       @makeCredentials @password
       delete @password
 
-    if not @id
-      @id = uuid.v1()
-
   makeCredentials: (password) ->
     sha = crypto.createHash 'sha1'
     salt = uuid.v1() + new Date().toJSON()
