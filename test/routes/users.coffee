@@ -25,7 +25,7 @@ describe 'Users', ->
     ops.body =
       firstName: 'Will'
       lastName: 'Laurance'
-      email: 'w.laurance@gmail.com'
+      email: "w.laurance#{new Date().toString().replace(/[\W]/g, '')}@gmail.com"
       password: 'keyboard cats'
     request.post (base '/users'), ops, (e,r,b)->
       r.statusCode.should.be.equal 200
