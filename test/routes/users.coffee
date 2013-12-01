@@ -25,8 +25,16 @@ describe 'Users', ->
   before (done) ->
     startApp -> done()
 
+  after (done) ->
+    request (base '/users'), _.clone(options), (e,r,b)->
+      testUsers = _.filter b.users, (u)->
+        return u.firstName is 'Test' and u.lastName is 'User'
+      async.each testUsers, (u, cb)->
+        request.del (base "/users/#{u.id}"), _.clone(options), cb
+      , done
+
   it 'Get all Users', (done)->
-    request (base '/users'), options, (e,r,b)->
+    request (base '/users'), _.clone(options), (e,r,b)->
       r.statusCode.should.be.equal 200
       b.should.have.property 'users'
       should.equal UserTestHelper.users.length <= b.users.length, yes
@@ -40,9 +48,9 @@ describe 'Users', ->
       done()
 
   it 'cant get each user individually', (done)->
-    request (base '/users'), options, (e,r,b)->
+    request (base '/users'), _.clone(options), (e,r,b)->
       iterator = (id, cb)->
-        request (base "/users/#{id}"), options, (e,r,b)->
+        request (base "/users/#{id}"), _.clone(options), (e,r,b)->
           r.statusCode.should.be.equal 200
           UserTestHelper.validate b
           cb()
@@ -58,9 +66,9 @@ describe 'Users', ->
   it 'can delete a user', (done)->
     t = "testUser#{uuid.v1()}@testuser.com"
     makeUser t, 200, (user)->
-      request.del (base "/users/#{user.id}"), options, (e,r,b)->
+      request.del (base "/users/#{user.id}"), _.clone(options), (e,r,b)->
         r.statusCode.should.be.equal 200
-        request (base "/users/#{user.id}"), options, (e,r,b)->
+        request (base "/users/#{user.id}"), _.clone(options), (e,r,b)->
           r.statusCode.should.be.equal 404
           done()
 
