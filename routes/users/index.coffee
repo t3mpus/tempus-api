@@ -1,3 +1,4 @@
+_ = require 'underscore'
 UsersController = require "#{__dirname}/../../controllers/users"
 User = require "#{__dirname}/../../models/user"
 
@@ -5,7 +6,7 @@ handler = (app)->
 
   app.get '/users', (req, res)->
     UsersController.getAll (err, users)->
-      res.send users: users
+      res.send users: _.map users, (user)-> new User(user).publicObject()
 
   app.post '/users', (req, res)->
     user = new User req.body
