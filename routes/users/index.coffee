@@ -12,7 +12,10 @@ handler = (app)->
     user = new User req.body
     if user.validate()
       UsersController.create user, (err, user)->
-        res.send user.publicObject()
+        if err
+          res.send 400, error: 'user already exists'
+        else
+          res.send user.publicObject()
     else
       res.send 400, error: user.errors()
 
