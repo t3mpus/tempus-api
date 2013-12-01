@@ -23,7 +23,7 @@ makeUser = (testUserEmail, status, cb)->
 
 describe 'Users', ->
   before (done) ->
-    startApp -> UserTestHelper.addUsers done
+    startApp -> done()
 
   it 'Get all Users', (done)->
     request (base '/users'), options, (e,r,b)->
