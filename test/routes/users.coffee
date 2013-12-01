@@ -9,6 +9,18 @@ base = require './../base'
 options = require './../options'
 UserTestHelper = require './user_test_helper'
 
+makeUser = (testUserEmail, status, cb)->
+  ops = _.clone options
+  ops.body =
+    firstName: 'Test'
+    lastName: 'User'
+    email: testUserEmail
+    password: 'keyboard cats'
+  request.post (base '/users'), ops, (e,r,b)->
+    r.statusCode.should.be.equal status
+    UserTestHelper.validate b if r.statusCode is 200
+    cb(b)
+
 describe 'Users', ->
   before (done) ->
     startApp -> UserTestHelper.addUsers done
@@ -44,18 +56,9 @@ describe 'Users', ->
       async.eachLimit _.map(b.users, (u)-> u.id), 100, iterator, done
 
   it 'cant have two users with the same email', (done)->
-    testUserEmail = "testUser#{uuid.v1()}@testuser.com"
-    ops = _.clone options
-    ops.body =
-      firstName: 'Test'
-      lastName: 'User'
-      email: testUserEmail
-      password: 'keyboard cats'
-    makeUser = (status, cb)->
-      request.post (base '/users'), ops, (e,r,b)->
-        r.statusCode.should.be.equal status
-        UserTestHelper.validate b if r.statusCode is 200
-        cb(b)
-    makeUser 200, -> makeUser 400, (error)->
+    t = "testUser#{uuid.v1()}@testuser.com"
+    makeUser t, 200, -> makeUser t, 400, (error)->
       error.should.have.property 'error', 'user already exists'
       done()
+
+  it 'can delete a user'
