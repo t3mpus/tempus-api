@@ -61,4 +61,12 @@ describe 'Users', ->
       error.should.have.property 'error', 'user already exists'
       done()
 
-  it 'can delete a user'
+  it 'can delete a user', (done)->
+    t = "testUser#{uuid.v1()}@testuser.com"
+    makeUser t, 200, (user)->
+      request.del (base "/users/#{user.id}"), options, (e,r,b)->
+        r.statusCode.should.be.equal 200
+        request (base "/users/#{user.id}"), options, (e,r,b)->
+          r.statusCode.should.be.equal 404
+          done()
+
