@@ -17,6 +17,7 @@ describe 'Users', ->
       r.statusCode.should.be.equal 200
       b.should.have.property 'users'
       should.equal UserTestHelper.users.length <= b.users.length, yes
+      _.each b.users, UserTestHelper.validate
       done()
 
   it 'Creates a new user', (done) ->

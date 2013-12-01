@@ -19,3 +19,8 @@ exports.validate = (returnedUser) ->
     typeof returnedUser[property] isnt 'undefined'
   hasProps.should.be.true
 
+  privateProps = _.difference user.required, user.public
+  doesntHaveProps = _.every privateProps, (property) ->
+    typeof returnedUser[property] is 'undefined'
+  doesntHaveProps.should.be.true
+
