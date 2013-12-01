@@ -72,3 +72,7 @@ describe 'Users', ->
           r.statusCode.should.be.equal 404
           done()
 
+  it 'can handle a non existent user', (done)->
+    request (base "/users/not-an-id"), _.clone(options), (e,r,b)->
+      r.statusCode.should.be.equal 400
+      done()
