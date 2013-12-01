@@ -1,12 +1,14 @@
 BaseModel = require './base'
 crypto = require 'crypto'
 uuid = require 'uuid'
+_ = require 'underscore'
 
 class User extends BaseModel
   constructor: (options) ->
     super options
 
     @required = ['firstName', 'lastName', 'email', 'hash', 'salt']
+    @public = _.without @required, 'hash', 'salt', 'required', 'public'
 
     if @password
       @makeCredentials @password

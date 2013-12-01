@@ -15,8 +15,7 @@ describe 'Users', ->
     request (base '/users'), options, (e,r,b)->
       r.statusCode.should.be.equal 200
       b.should.have.property 'users'
-      b.users.should.have.property 'length', UserTestHelper.users.length
-      UserTestHelper.isEqual b.users
+      should.equal UserTestHelper.users.length <= b.users.length, yes
       done()
 
   it 'Creates a new user', (done) ->
@@ -28,5 +27,5 @@ describe 'Users', ->
       password: 'keyboard cats'
     request.post (base '/users'), ops, (e,r,b)->
       r.statusCode.should.be.equal 200
-      b.should.have.property 'user'
+      UserTestHelper.validate b
       done()

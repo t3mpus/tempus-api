@@ -6,19 +6,24 @@ user = sql.define
   name: 'users'
   columns: (new User).columns()
 
-query = (string, callback)->
+query = (statement, callback)->
   db (err, client, done) ->
     if err
       return callback err
-    client.query string, (err, result)->
+    client.query statement.toQuery(), (err, result)->
       done()
       callback err, result?.rows
 
 UsersController =
   getAll: (callback)->
-    sqlString = user.select(user.star()).from(user).toQuery().text
-    query sqlString, callback
+    sqlStatement = user.select(user.star()).from(user)
+    query sqlStatement, callback
 
   getOne: (key, callback)->
+
+  create: (userParam, callback)->
+    sqlStatement = (user.insert userParam.requiredObject()).returning 'id'
+    query sqlStatement, (err, id)->
+      callback err, id?[0]?['id']
 
 module.exports = UsersController

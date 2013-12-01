@@ -12,5 +12,18 @@ class Base
   columns: ->
     _.union @required, ['id']
 
+  requiredObject: ->
+    r = {}
+    _.every @required, (property) =>
+      r[property] = @[property]
+    r
+
+  publicObject: (addIns)->
+    r = addIns
+    if @public
+      _.every @public, (property) =>
+        r[property] = @[property]
+    r
+
 module.exports = Base
 

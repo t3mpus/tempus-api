@@ -10,8 +10,8 @@ handler = (app)->
   app.post '/users', (req, res)->
     user = new User req.body
     if user.validate()
-      UsersController.create user, (err, user)->
-        res.send user.public()
+      UsersController.create user, (err, id)->
+        res.send user.publicObject id: id
     else
       res.send 400, error: user.errors()
 
