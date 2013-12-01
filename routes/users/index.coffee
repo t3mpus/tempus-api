@@ -22,9 +22,16 @@ handler = (app)->
   app.get '/users/:id', (req, res)->
     UsersController.getOne req.params.id, (err, user)->
       if err
-        res.send 404, error: "User with id #{id} not found"
+        res.send 404, error: "User with id #{req.params.id} not found"
       else
         res.send user.publicObject()
+
+  app.delete '/users/:id', (req, res)->
+    UsersController.deleteOne req.params.id, (err) ->
+      if err
+        res.send 404, error: "User with id #{req.params.id} not found"
+      else
+        res.send 200
 
 
 module.exports = handler
