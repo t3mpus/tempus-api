@@ -1,4 +1,5 @@
 request = require 'request'
+async = require 'async'
 should = require 'should'
 _ = require 'underscore'
 
@@ -29,3 +30,14 @@ describe 'Users', ->
       r.statusCode.should.be.equal 200
       UserTestHelper.validate b
       done()
+
+  it 'cant get each user individually', (done)->
+    request (base '/users'), options, (e,r,b)->
+      iterator = (id, cb)->
+        request (base "/users/#{id}"), options, (e,r,b)->
+          r.statusCode.should.be.equal 200
+          UserTestHelper.validate b
+          cb()
+
+      async.eachLimit _.map(b.users, (u)-> u.id), 100, iterator, done
+
