@@ -34,14 +34,8 @@ describe 'Users', ->
       done()
 
   it 'Creates a new user', (done) ->
-    ops = _.clone options
-    ops.body =
-      firstName: 'Will'
-      lastName: 'Laurance'
-      email: "w.laurance#{new Date().toString().replace(/[\W]/g, '')}@gmail.com"
-      password: 'keyboard cats'
-    request.post (base '/users'), ops, (e,r,b)->
-      r.statusCode.should.be.equal 200
+    t = "testUser#{uuid.v1()}@testuser.com"
+    makeUser t, 200, (b)->
       UserTestHelper.validate b
       done()
 
