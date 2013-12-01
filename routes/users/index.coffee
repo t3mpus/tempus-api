@@ -21,7 +21,7 @@ handler = (app)->
 
   app.get '/users/:id', (req, res)->
     UsersController.getOne req.params.id, (err, user)->
-      if err
+      if err or not user.validate()
         res.send 404, error: "User with id #{req.params.id} not found"
       else
         res.send user.publicObject()
