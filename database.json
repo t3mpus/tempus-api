@@ -4,5 +4,6 @@
     "user": "tempus",
     "password": "t3mpus",
     "database": "tempus_dev"
-  }
+  },
+  "staging": "postgres://nwbtnuuhbjuqgs:cexSwZ6jZiTCgS_lT3AyNC5XBq@ec2-54-221-223-92.compute-1.amazonaws.com:5432/d3dpgloc6m1795"
 }
