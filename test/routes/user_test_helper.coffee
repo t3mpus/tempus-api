@@ -13,6 +13,9 @@ exports.users = []
 
 exports.validate = (returnedUser) ->
   user = new User returnedUser
-  _.every user.public, (property)->
+  props = _.clone user.public
+  props.push 'id'
+  hasProps = _.every props, (property)->
     typeof returnedUser[property] isnt 'undefined'
+  hasProps.should.be.true
 

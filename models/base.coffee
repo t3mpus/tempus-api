@@ -18,11 +18,12 @@ class Base
       r[property] = @[property]
     r
 
-  publicObject: (addIns)->
+  publicObject: (addIns = {})->
     r = addIns
     if @public
       _.every @public, (property) =>
         r[property] = @[property]
+      r.id = @id if typeof @id isnt 'undefined'
     r
 
 module.exports = Base

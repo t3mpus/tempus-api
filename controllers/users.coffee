@@ -16,14 +16,24 @@ query = (statement, callback)->
 
 UsersController =
   getAll: (callback)->
-    sqlStatement = user.select(user.star()).from(user)
-    query sqlStatement, callback
+    statement = user.select(user.star()).from(user)
+    query statement, callback
 
   getOne: (key, callback)->
+    statement = user.select(user.star()).from(user)
+      .where(user.id.equals key)
+    query statement, (err, rows)->
+      if err
+        callback err
+      else
+        callback err, new User rows[0]
 
   create: (userParam, callback)->
-    sqlStatement = (user.insert userParam.requiredObject()).returning 'id'
-    query sqlStatement, (err, id)->
-      callback err, id?[0]?['id']
+    statement = (user.insert userParam.requiredObject()).returning '*'
+    query statement, (err, rows)->
+      if err
+        callback err
+      else
+        callback err, new User rows[0]
 
 module.exports = UsersController
