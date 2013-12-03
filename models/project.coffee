@@ -3,7 +3,7 @@ BaseModel = require './base'
 class Project extends BaseModel
   constructor: (props) ->
     super props
-    @required = ['name', 'createdDate', 'postHooks']
+    @required = ['name', 'createdDate']
 
 module.exports = Project
 
