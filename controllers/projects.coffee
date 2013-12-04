@@ -1,10 +1,11 @@
+BaseController = require "#{__dirname}/base"
 ProjectModel = require "#{__dirname}/../models/project"
 
-ProjectsController =
+class ProjectsController extends BaseController
   getAll: (callback)->
 
   getOne: (key, callback)->
 
   create: (spec, callback)->
 
-module.exports = ProjectsController
+module.exports = ProjectsController.get()

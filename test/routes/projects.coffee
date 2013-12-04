@@ -16,17 +16,21 @@ validProject = (p)->
 
 testProjects = [ {name: 'p1'}, {name: 'p2'} ]
 
+testUser = {}
+
 createTestUser = (cb)->
   ops = _.clone options
   ops.body =
     firstName: 'Test'
     lastName: 'ProjectUser'
-    email: 'testProjectUser@testProjectUser.com'
+    email: "testProjectUser#{uuid.v1()}@testProjectUser.com"
     password: 'testing projects!'
+  testUser = ops.body
   request.post (base '/users'), ops, (e,r,b)->
     cb null, b.id
 
 createProject = (project, callback)->
+  console.log project
   ops = _.clone options
   ops.body = project
   request.post (base '/projects'), ops, (e,r,b)->
@@ -38,12 +42,12 @@ describe 'Projects', ->
   before (done) ->
     startApp ->
       createTestUser (e, id)->
-        testProjects = _.map testProjects, (p, i)->
-          p.name = "p#{i}"
+        testProjects = _.map testProjects, (p)->
           p.createdDate = new Date()
           p.userId = id
-        async.each testProjects, createProject, done
-
+          return p
+        #async.each testProjects, createProject, done
+        done()
 
   it 'should get all projects', (done)->
     request (base '/projects'), options, (e,r,b)->
