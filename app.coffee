@@ -3,6 +3,7 @@ info = require './package'
 http = require 'http'
 
 users = require './routes/users'
+projects = require './routes/projects'
 
 done = null
 
@@ -14,6 +15,7 @@ app.use express.bodyParser()
 app.get '/', (req, res)-> res.send version:info.version
 
 users app
+projects app
 
 port = process.env.PORT || 3000
 
