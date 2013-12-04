@@ -1,5 +1,5 @@
 ProjectsController = require "#{__dirname}/../../controllers/projects"
-ProjectModel = require "#{__dirname}/../../models/project"
+Project = require "#{__dirname}/../../models/project"
 
 handler = (app) ->
 
@@ -11,11 +11,15 @@ handler = (app) ->
         res.send projects:projects
 
   app.post '/projects', (req, res) ->
-    ProjectsController.create req.body, (err, project) ->
-      if err
-        res.send 400, error: 'Error'
-      else
-        res.send project
+    project = new Project req.body
+    if project.validate()
+      ProjectsController.create project, (err, project) ->
+        if err
+          res.send 400, error: 'Error'
+        else
+          res.send project
+    else
+      res.send 400, error: 'Error'
 
 
 module.exports = handler

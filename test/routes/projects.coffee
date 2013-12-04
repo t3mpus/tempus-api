@@ -10,7 +10,6 @@ options = require './../options'
 
 validProject = (p)->
   p.should.have.property 'name'
-  p.should.have.property 'userid'
   p.should.have.property 'id'
   p.should.have.property 'createdDate'
 
@@ -46,8 +45,7 @@ describe 'Projects', ->
           p.createdDate = new Date()
           p.userId = id
           return p
-        #async.each testProjects, createProject, done
-        done()
+        async.each testProjects, createProject, done
 
   it 'should get all projects', (done)->
     request (base '/projects'), options, (e,r,b)->

@@ -8,6 +8,10 @@ class ProjectsController extends BaseController
     name: 'projects'
     columns: (new Project).columns()
 
+  usersprojects: sql.define
+    name: 'usersprojects'
+    columns: ['userid', 'projectid']
+
   getAll: (callback)->
     statement = @project.select(@project.star()).from(@project)
     @query statement, callback
@@ -15,5 +19,20 @@ class ProjectsController extends BaseController
   getOne: (key, callback)->
 
   create: (spec, callback)->
+    userid = spec.userId
+    if not userid
+      return callback new Error 'UserId is required'
+    statement = (@project.insert spec.requiredObject()).returning '*'
+    @query statement, (err, rows)=>
+      if err
+        return callback err
+      else
+        project = new Project rows[0]
+        statement = (@usersprojects.insert {userid:userid, projectid: project.id})
+        @query statement, (err)->
+          if err
+            return callback err
+          else
+            return callback null, project
 
 module.exports = ProjectsController.get()
