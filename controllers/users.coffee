@@ -32,6 +32,8 @@ class UsersController extends BaseController
   deleteOne: (key, callback)->
     statement = @user.delete().where(@user.id.equals(key))
     @queryWithResult statement, (err, result)->
+      if err
+        return callback err
       if result.rowCount > 0
         callback()
       else
