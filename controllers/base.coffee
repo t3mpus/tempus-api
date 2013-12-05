@@ -1,5 +1,6 @@
 Singleton = require 'singleton'
 db = require "#{__dirname}/../db"
+_ = require 'underscore'
 
 class BaseController extends Singleton
   query: (statement, callback, rows = yes)->
@@ -12,6 +13,9 @@ class BaseController extends Singleton
 
   queryWithResult: (statement, callback)->
     @query statement, callback, no
+
+  transaction: (cb)->
+    t = new db.Transaction (()-> cb(t))
 
 module.exports = BaseController
 

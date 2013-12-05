@@ -96,9 +96,9 @@ describe 'Projects', ->
     request.post (base '/projects'), ops, (e,r,b)->
       id = b.id
       validProject b
-      request.del (base "/project/#{id}"), _.clone(options), (e,r,b)->
+      request.del (base "/projects/#{id}"), _.clone(options), (e,r,b)->
         r.statusCode.should.be.equal 200
-        request (base "/project/#{id}"), _.clone(options), (e,r,b)->
+        request (base "/projects/#{id}"), _.clone(options), (e,r,b)->
           r.statusCode.should.be.equal 404
           done()
 

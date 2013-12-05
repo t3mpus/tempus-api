@@ -24,10 +24,17 @@ handler = (app) ->
 
   app.get '/projects/:id', (req, res) ->
     ProjectsController.getOne req.params.id, (err, project)->
-      if err
+      if err or not project.validate()
         res.send 404, error: 'Error'
       else
         res.send project.publicObject()
+
+  app.delete '/projects/:id', (req, res) ->
+    ProjectsController.deleteOne req.params.id, (err) ->
+      if err
+        res.send 404, error: "Project with id #{req.params.id} not found"
+      else
+        res.send 200
 
 
 module.exports = handler

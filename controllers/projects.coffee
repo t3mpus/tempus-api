@@ -1,7 +1,7 @@
 BaseController = require "#{__dirname}/base"
 Project = require "#{__dirname}/../models/project"
 sql = require 'sql'
-
+async = require 'async'
 
 class ProjectsController extends BaseController
   project: sql.define
@@ -41,5 +41,24 @@ class ProjectsController extends BaseController
             return callback err
           else
             return callback null, project
+
+  deleteOne: (key, callback)->
+    deleteProject = @project.delete().where(@project.id.equals(key))
+    deleteUsersProjectsRows = @usersprojects.delete().where(@usersprojects.projectid.equals key)
+    t = @transaction()
+    start = ->
+      async.eachSeries [deleteUsersProjectsRows, deleteProject],
+        (s, cb)->
+          t.query s, cb
+        , ->
+          t.commit()
+
+    t.on 'begin', start
+    t.on 'error', console.log
+    t.on 'commit', ->
+      callback()
+    t.on 'rollback', ->
+      callback new Error "Could not delete project with id #{key}"
+
 
 module.exports = ProjectsController.get()
