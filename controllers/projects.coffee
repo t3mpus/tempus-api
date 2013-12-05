@@ -17,6 +17,13 @@ class ProjectsController extends BaseController
     @query statement, callback
 
   getOne: (key, callback)->
+    statement = @project.select(@project.star()).from(@project)
+      .where(@project.id.equals key)
+    @query statement, (err, rows)->
+      if err
+        callback err
+      else
+        callback err, new Project rows[0]
 
   create: (spec, callback)->
     userid = spec.userId
