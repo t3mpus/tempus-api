@@ -14,6 +14,5 @@ exports.up = function(db, callback) {
 };
 
 exports.down = function(db, callback) {
-  console.log('not dropping table projects');
-  callback();
+  db.dropTable('projects', callback);
 };
