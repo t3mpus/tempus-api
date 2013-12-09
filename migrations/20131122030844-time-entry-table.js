@@ -14,5 +14,9 @@ exports.up = function(db, callback) {
 };
 
 exports.down = function(db, callback) {
-  db.dropTable('timeEntries', callback);
+  if (process.env.DROP_TABLES == "true") {
+    db.dropTable('timeEntries', callback);
+  } else {
+    callback();
+  }
 };
