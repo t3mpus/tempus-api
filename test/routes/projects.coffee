@@ -16,6 +16,7 @@ validProject = (p)->
 testProjects = [ {name: 'p1'}, {name: 'p2'} ]
 
 testUserId = undefined
+projectsCreated = []
 
 createTestUser = (cb)->
   ops = _.clone options
@@ -34,6 +35,13 @@ createProject = (project, callback)->
   request.post (base '/projects'), ops, (e,r,b)->
     r.statusCode.should.be.equal 200
     validProject b
+    projectsCreated.push b
+    callback()
+
+deleteProject = (project, callback)->
+  ops = _.clone options
+  request.del (base "/projects/#{project.id}"), ops, (e,r,b)->
+    r.statusCode.should.be.equal 200
     callback()
 
 describe 'Projects', ->
@@ -48,10 +56,11 @@ describe 'Projects', ->
         async.each testProjects, createProject, done
 
   after (done) ->
-    ops = _.clone options
-    request.del (base "/users/#{testUserId}"), ops, (e,r,b)->
-      r.statusCode.should.be.equal 200
-      done()
+    async.each projectsCreated, deleteProject, ->
+      ops = _.clone options
+      request.del (base "/users/#{testUserId}"), ops, (e,r,b)->
+        r.statusCode.should.be.equal 200
+        done()
 
   it 'should get all projects', (done)->
     request (base '/projects'), _.clone(options), (e,r,b)->
