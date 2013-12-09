@@ -2,8 +2,8 @@ var dbm = require('db-migrate');
 var type = dbm.dataType;
 var async = require('async');
 
-var columnsToRemove = ['userid', '"userId"', '"postHooks"'];
-var columnsToAdd = ['"userId"', '"postHooks"'];
+var columnsToRemove = ['userid', '"postHooks"'];
+var columnsToAdd = ['"postHooks"'];
 
 exports.up = function(db, callback) {
   function dropConstraint(cb){

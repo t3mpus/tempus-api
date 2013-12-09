@@ -14,6 +14,9 @@ exports.up = function(db, callback) {
 };
 
 exports.down = function(db, callback) {
-  console.log('not deleting timeEntries');
-  callback();
+  if (process.env.DROP_TABLES == "true") {
+    db.dropTable('timeEntries', callback);
+  } else {
+    callback();
+  }
 };
