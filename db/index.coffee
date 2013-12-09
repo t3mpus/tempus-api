@@ -36,7 +36,7 @@ class Transaction extends EventEmitter
   rollback: () ->
     @client.query 'ROLLBACK', (err) =>
       @done err
-      @onRollback 'ROLLBACK'
+      @emit 'rollback', err
 
   commit: (obj)->
     @client.query 'COMMIT', (err) =>
