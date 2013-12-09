@@ -94,6 +94,7 @@ describe 'Projects', ->
       userId: testUserId
       createdDate: new Date()
     request.post (base '/projects'), ops, (e,r,b)->
+      r.statusCode.should.be.equal 200
       id = b.id
       validProject b
       request.del (base "/projects/#{id}"), _.clone(options), (e,r,b)->

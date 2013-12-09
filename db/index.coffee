@@ -27,21 +27,21 @@ class Transaction extends EventEmitter
 
   query: (statement, cb)->
     statement = if typeof statement.toQuery is 'function' then statement.toQuery() else statement
-    @client.query statement, (err) =>
+    @client.query statement, (err, rows) =>
       if err
         @emit 'error', err
       else
-        cb()
+        cb rows
 
   rollback: () ->
     @client.query 'ROLLBACK', (err) =>
       @done err
       @onRollback 'ROLLBACK'
-  
-  commit: (cb)->
+
+  commit: (obj)->
     @client.query 'COMMIT', (err) =>
       @done()
-      @emit 'commit'
+      @emit 'commit', obj
 
 module.exports = Database
 

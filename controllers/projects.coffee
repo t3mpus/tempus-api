@@ -29,18 +29,23 @@ class ProjectsController extends BaseController
     userid = spec.userId
     if not userid
       return callback new Error 'UserId is required'
-    statement = (@project.insert spec.requiredObject()).returning '*'
-    @query statement, (err, rows)=>
-      if err
-        return callback err
-      else
-        project = new Project rows[0]
-        statement = (@usersprojects.insert {userid:userid, projectid: project.id})
-        @query statement, (err)->
-          if err
-            return callback err
-          else
-            return callback null, project
+    t = @transaction()
+    start = =>
+      statementNewProject = (@project.insert spec.requiredObject()).returning '*'
+      t.query statementNewProject, (results) =>
+        project = new Project results?.rows[0]
+        statementNewUsersProject = (@usersprojects.insert {userid:userid, projectid: project.id})
+        t.query statementNewUsersProject, ()->
+          t.commit project
+
+    t.on 'begin', start
+    t.on 'error', (err)->
+      callback err
+    t.on 'commit', (project)->
+      callback null, project
+    t.on 'rollback', ->
+      callback new Error "Couldn't create new project"
+
 
   deleteOne: (key, callback)->
     deleteProject = @project.delete().where(@project.id.equals(key))
@@ -49,7 +54,8 @@ class ProjectsController extends BaseController
     start = ->
       async.eachSeries [deleteUsersProjectsRows, deleteProject],
         (s, cb)->
-          t.query s, cb
+          t.query s, ()->
+            cb()
         , ->
           t.commit()
 
