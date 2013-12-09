@@ -29,7 +29,8 @@
     "uuid": "~1.4.1",
     "pg": "~2.8.3",
     "sql": "~0.33.0",
-    "underscore": "~1.5.2"
+    "underscore": "~1.5.2",
+    "singleton": "0.0.3"
   },
   "engines": {
     "node": "0.10.x",
