@@ -7,7 +7,7 @@ describe 'app riak object', ->
     riak.getClient.should.be.type 'function'
 
   it 'should respond to pings', (done)->
-    @timeout 500
+    @timeout 1000
     client = riak.getClient()
     client.ping (err, result)->
       throw err if err
