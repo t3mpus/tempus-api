@@ -1,0 +1,27 @@
+server {
+	listen 443;
+	location / {
+		proxy_pass http://127.0.0.1:8098;
+		auth_basic "Restricted";
+		auth_basic_user_file .htpasswd;
+	}
+
+	ssl on;
+	ssl_certificate server.crt;
+	ssl_certificate_key server.key;
+
+	ssl_session_timeout 5m;
+
+	ssl_protocols SSLv3 TLSv1;
+	ssl_ciphers ALL:!ADH:!EXPORT56:RC4+RSA:+HIGH:+MEDIUM:+LOW:+SSLv3:+EXP;
+	ssl_prefer_server_ciphers on;
+}
+
+server {
+	listen 80;
+	location / {
+		proxy_pass http://127.0.0.1:8098;
+		auth_basic "Restricted";
+		auth_basic_user_file .htpasswd;
+	}
+}
