@@ -11,7 +11,7 @@
       "password":"d3ab86ca09ac44a7b03e229293681583fd0320dc",
       "user": "riak_user",
       "host": "staging.riak.t3mp.us",
-      "port": 443,
+      "port": 80,
       "scheme": "https"
     },
     "dev": {
