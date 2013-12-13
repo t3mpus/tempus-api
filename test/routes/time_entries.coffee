@@ -8,6 +8,8 @@ startApp = require './../start_app'
 base = require './../base'
 options = require './../options'
 
+TimeEntry = require "#{__dirname}/../../models/time_entry"
+
 testUser = undefined
 testProject = undefined
 
@@ -50,4 +52,15 @@ describe 'Time Entries', ->
     deleteUserAndProject done
 
   it 'should make a time entry', (done)->
-    setTimeout done, 100
+    ops = _.clone options
+    ops.body =
+      start: new Date('May 4 1987')
+      end: new Date()
+      message: 'I am a wonderful time entry :)'
+      projectId: testProject.id
+      userId: testUser.id
+    request.post (base '/time_entries'), (e,r,b)->
+      r.statusCode.should.be.equal 200
+      te = new TimeEntry b
+      te.validate().should.be.true
+      done()
