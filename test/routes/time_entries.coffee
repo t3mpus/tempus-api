@@ -59,6 +59,8 @@ describe 'Time Entries', ->
       message: 'I am a wonderful time entry :)'
       projectId: testProject.id
       userId: testUser.id
+    teb = new TimeEntry ops.body
+    teb.validate().should.be.true
     request.post (base '/time_entries'), (e,r,b)->
       r.statusCode.should.be.equal 200
       te = new TimeEntry b
