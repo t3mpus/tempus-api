@@ -7,7 +7,12 @@ class Base
 
   validate: ->
     _.every @required, (property) =>
-      typeof @[property] isnt 'undefined'
+      valid = false
+      valid = typeof @[property] isnt 'undefined'
+      if @validator and @validator[property]
+        valid = @validator[property]()
+      valid
+
 
   columns: ->
     _.union @required, ['id']
@@ -23,7 +28,10 @@ class Base
     if @public
       _.every @public, (property) =>
         r[property] = @[property]
-      r.id = @id if typeof @id isnt 'undefined'
+    else
+      _.every @required, (property) =>
+        r[property] = @[property]
+    r.id = @id if typeof @id isnt 'undefined'
     r
 
 module.exports = Base
