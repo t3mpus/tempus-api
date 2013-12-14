@@ -7,7 +7,12 @@ class Base
 
   validate: ->
     _.every @required, (property) =>
-      typeof @[property] isnt 'undefined'
+      valid = false
+      valid = typeof @[property] isnt 'undefined'
+      if @validator and @validator[property]
+        valid = @validator[property]()
+      valid
+
 
   columns: ->
     _.union @required, ['id']
