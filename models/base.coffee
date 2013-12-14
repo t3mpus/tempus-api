@@ -23,7 +23,10 @@ class Base
     if @public
       _.every @public, (property) =>
         r[property] = @[property]
-      r.id = @id if typeof @id isnt 'undefined'
+    else
+      _.every @required, (property) =>
+        r[property] = @[property]
+    r.id = @id if typeof @id isnt 'undefined'
     r
 
 module.exports = Base
