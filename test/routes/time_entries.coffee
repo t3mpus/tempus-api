@@ -61,7 +61,7 @@ describe 'Time Entries', ->
       userId: testUser.id
     teb = new TimeEntry ops.body
     teb.validate().should.be.true
-    request.post (base '/time_entries'), (e,r,b)->
+    request.post (base '/time_entries'), ops, (e,r,b)->
       r.statusCode.should.be.equal 200
       te = new TimeEntry b
       te.validate().should.be.true
