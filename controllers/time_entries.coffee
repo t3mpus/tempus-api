@@ -18,7 +18,6 @@ class TimeEntriesController extends Singleton
       time_entry.id = @idGen time_entry
 
       handler = (err, obj, meta) ->
-        console.log err, obj, meta
         if err
           callback err
         else

@@ -7,6 +7,8 @@ makeT = (offset = 10) ->
     end: new Date() - offset
     duration: 60 * 60
     message: 'message goes here'
+    userId: 'someuserID'
+    projectId: 'someprojectID'
 
 describe 'TimeEntry Model', ->
   it 'should be able to create a new instance', ->
