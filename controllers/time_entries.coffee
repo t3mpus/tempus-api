@@ -15,18 +15,16 @@ class TimeEntriesController extends Singleton
 
   create: (time_entry, callback)->
     if time_entry.userId and time_entry.projectId
-      id = @idGen time_entry
+      time_entry.id = @idGen time_entry
 
       handler = (err, obj, meta) ->
+        console.log err, obj, meta
         if err
           callback err
         else
-          te = new TimeEntry obj
-          te.id = id
-          callback null, te
+          callback null, time_entry
 
-      console.log id, @bucket
-      Riak.getClient().save @bucket, id, time_entry,
+      Riak.getClient().save @bucket, time_entry.id, time_entry,
         {
           index:
             userId: time_entry.userId
