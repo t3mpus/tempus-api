@@ -12,6 +12,7 @@ TimeEntry = require "#{__dirname}/../../models/time_entry"
 
 testUser = undefined
 testProject = undefined
+timeEntriesCreated = []
 
 makeUser = (cb)->
   ops = _.clone options
@@ -49,7 +50,13 @@ describe 'Time Entries', ->
       ], (obj)->
         request.del (base "/#{obj.what}/#{obj.id}"), _.clone(options), (e,r,b)->
           cb(e)
-    deleteUserAndProject done
+    deleteTimeEntries = (cb)->
+      async.each timeEntriesCreated, (e, cb)->
+        request.del (base "/time_entries/#{e.id}"), _.clone(options), (e,r,b)->
+          r.statusCode.should.be.equal 200
+          cb e
+      , cb
+    async.parallel [deleteTimeEntries, deleteUserAndProject], done
 
   it 'should make a time entry', (done)->
     ops = _.clone options
@@ -64,5 +71,6 @@ describe 'Time Entries', ->
     request.post (base '/time_entries'), ops, (e,r,b)->
       r.statusCode.should.be.equal 200
       te = new TimeEntry b
+      timeEntriesCreated.push te
       te.validate().should.be.true
       done()
