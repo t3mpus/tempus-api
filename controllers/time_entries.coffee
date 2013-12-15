@@ -37,4 +37,7 @@ class TimeEntriesController extends Singleton
       else
         callback null, new TimeEntry te
 
+  deleteOne: (key, callback)->
+    Riak.getClient().remove @bucket, key, callback
+
 module.exports = TimeEntriesController.get()

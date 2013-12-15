@@ -21,4 +21,11 @@ handler = (app) ->
       else
         res.send time_entry.publicObject()
 
+  app.delete '/time_entries/:id', (req, res) ->
+    TimeEntriesController.deleteOne req.params.id, (err)->
+      if err
+        res.send 404, error: "#{req.params.id} not found"
+      else
+        res.send 200
+
 module.exports = handler
