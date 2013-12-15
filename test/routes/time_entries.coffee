@@ -107,9 +107,10 @@ describe 'Time Entries', ->
     teb = new TimeEntry ops.body
     teb.validate().should.be.true
     request.post (base '/time_entries'), ops, (e,r,b)->
+      teb = new TimeEntry b
       r.statusCode.should.be.equal 200
-      request.del (base "/time_entries/#{b.id}"), _.clone(options), (e,r,b)->
+      request.del (base "/time_entries/#{teb.id}"), _.clone(options), (e,r,b)->
         r.statusCode.should.be.equal 200
-        request (base "/time_entries/#{b.id}"), _.clone(options), (e,r,b)->
+        request (base "/time_entries/#{teb.id}"), _.clone(options), (e,r,b)->
           r.statusCode.should.be.equal 404
           done()
