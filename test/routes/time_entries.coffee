@@ -75,6 +75,27 @@ describe 'Time Entries', ->
       te.validate().should.be.true
       done()
 
+  it 'should get a time entry', (done)->
+    ops = _.clone options
+    ops.body =
+      start: new Date('January 1 1994')
+      end: new Date()
+      message: 'Try and get me!!!'
+      projectId: testProject.id
+      userId: testUser.id
+    teb = new TimeEntry ops.body
+    teb.validate().should.be.true
+    request.post (base '/time_entries'), ops, (e,r,b)->
+      r.statusCode.should.be.equal 200
+      te = new TimeEntry b
+      timeEntriesCreated.push te
+      te.validate().should.be.true
+      request (base "/time_entries/#{te.id}"), _.clone(options), (e,r,b)->
+        r.statusCode.should.be.equal 200
+        tegb = new TimeEntry b
+        tegb.validate().should.be.true
+        done()
+
   it 'should delete a time entry', (done)->
     ops = _.clone options
     ops.body =
@@ -87,8 +108,8 @@ describe 'Time Entries', ->
     teb.validate().should.be.true
     request.post (base '/time_entries'), ops, (e,r,b)->
       r.statusCode.should.be.equal 200
-      request.del (base "/time_entries/#{b.id}"), _.clone options, (e,r,b)->
+      request.del (base "/time_entries/#{b.id}"), _.clone(options), (e,r,b)->
         r.statusCode.should.be.equal 200
-        request (base "/time_entries/#{b.id}"), _.clone options, (e,r,b)->
+        request (base "/time_entries/#{b.id}"), _.clone(options), (e,r,b)->
           r.statusCode.should.be.equal 404
           done()
