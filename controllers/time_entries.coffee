@@ -30,4 +30,11 @@ class TimeEntriesController extends Singleton
             projectId: time_entry.projectId
         }, handler
 
+  getOne: (key, callback)->
+    Riak.getClient().get @bucket, key, (err, te, meta)->
+      if err
+        return callback err
+      else
+        callback null, new TimeEntry te
+
 module.exports = TimeEntriesController.get()

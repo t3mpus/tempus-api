@@ -14,5 +14,11 @@ handler = (app) ->
     else
       res.send 400, error: 'some error'
 
+  app.get '/time_entries/:id', (req, res) ->
+    TimeEntriesController.getOne req.params.id, (err, time_entry)->
+      if err
+        res.send 404, error: "#{req.params.id} not found"
+      else
+        res.send time_entry.publicObject()
 
 module.exports = handler
