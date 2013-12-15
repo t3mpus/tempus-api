@@ -74,3 +74,21 @@ describe 'Time Entries', ->
       timeEntriesCreated.push te
       te.validate().should.be.true
       done()
+
+  it 'should delete a time entry', (done)->
+    ops = _.clone options
+    ops.body =
+      start: new Date('June 18, 2013')
+      end: new Date('June 22, 2013')
+      message: 'I will be deleted very soon!'
+      projectId: testProject.id
+      userId: testUser.id
+    teb = new TimeEntry ops.body
+    teb.validate().should.be.true
+    request.post (base '/time_entries'), ops, (e,r,b)->
+      r.statusCode.should.be.equal 200
+      request.del (base "/time_entries/#{b.id}"), _.clone options, (e,r,b)->
+        r.statusCode.should.be.equal 200
+        request (base "/time_entries/#{b.id}"), _.clone options, (e,r,b)->
+          r.statusCode.should.be.equal 404
+          done()
