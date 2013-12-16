@@ -10,7 +10,7 @@ done = null
 
 app = express()
 
-app.use express.logger()
+app.use express.logger() if not process.env.TESTING
 app.use express.bodyParser()
 
 app.get '/', (req, res)-> res.send version:info.version

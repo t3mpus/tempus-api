@@ -5,7 +5,7 @@
   "private": true,
   "main": "index.js",
   "scripts": {
-    "test": "./node_modules/.bin/mocha --compilers coffee:coffee-script --recursive",
+    "test": "TESTING=true ./node_modules/.bin/mocha -R spec --compilers coffee:coffee-script --recursive",
     "start": "./node_modules/.bin/coffee app.coffee"
   },
   "repository": {
