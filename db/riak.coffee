@@ -5,7 +5,7 @@ riakjs = require 'riak-js'
 module.exports =
   getClient: () ->
     config = {}
-    if process.env.NODE_ENV?.toLowerCase() is 'staging'
+    if process.env.NODE_ENV?.toLowerCase() is 'staging' or process.env.RIAK_ENV?.toLowerCase() is 'staging'
       conf = (require "#{__dirname}/../database.json").riak.staging
       config.host = conf.host
       config.port = conf.port
