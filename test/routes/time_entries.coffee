@@ -114,3 +114,20 @@ describe 'Time Entries', ->
         request (base "/time_entries/#{teb.id}"), _.clone(options), (e,r,b)->
           r.statusCode.should.be.equal 404
           done()
+
+  describe 'in a project', ->
+    it 'should have time entries associated with the project', (done)->
+      request.get (base "/projects/#{testProject.id}/time_entries"), _.clone(options), (e,r,b)->
+        r.statusCode.should.be.equal 200
+        b.should.have.property 'length'
+        if b.length is 0
+          throw new Error 'No time_entries to test'
+        else
+          _.every b, (t)-> (new TimeEntry t).validate().should.be.true
+          done()
+
+    it 'should have an appropriate error with a bad project id', (done)->
+      request.get (base "/projects/not-an-id/time_entries"), _.clone(options), (e,r,b) ->
+        r.statusCode.should.be.equal 404
+        b.error.should.not.be.equal null
+        done()

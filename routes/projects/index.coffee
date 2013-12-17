@@ -1,4 +1,6 @@
 ProjectsController = require "#{__dirname}/../../controllers/projects"
+TimeEntriesController = require "#{__dirname}/../../controllers/time_entries"
+
 Project = require "#{__dirname}/../../models/project"
 _ = require 'underscore'
 
@@ -35,6 +37,18 @@ handler = (app) ->
         res.send 404, error: "Project with id #{req.params.id} not found"
       else
         res.send 200
+
+  app.get '/projects/:id/time_entries', (req, res) ->
+    projectId = req.params.id
+    ProjectsController.exists projectId, (err, exists) ->
+      if err
+        res.send 404, error: "Project #{projectId} not found"
+      else
+        TimeEntriesController.getForProject projectId, (err, time_entries) ->
+          if err
+            res.send 400, error: 'Error'
+          else
+            res.send time_entries
 
 
 module.exports = handler

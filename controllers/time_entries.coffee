@@ -26,8 +26,8 @@ class TimeEntriesController extends Singleton
       Riak.getClient().save @bucket, time_entry.id, time_entry,
         {
           index:
-            userId: time_entry.userId
-            projectId: time_entry.projectId
+            userId: new String time_entry.userId
+            projectId: new String time_entry.projectId
         }, handler
 
   getOne: (key, callback)->
@@ -39,5 +39,10 @@ class TimeEntriesController extends Singleton
 
   deleteOne: (key, callback)->
     Riak.getClient().remove @bucket, key, callback
+
+  getForProject: (projectId, callback)->
+    Riak.getClient().mapreduce.add(
+      bucket: @bucket, index: "projectId_bin", key: new String projectId
+    ).map('Riak.mapValuesJson').run callback
 
 module.exports = TimeEntriesController.get()
