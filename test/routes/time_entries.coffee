@@ -125,3 +125,9 @@ describe 'Time Entries', ->
         else
           _.each b, (t)-> (new TimeEntry t).validate().should.be.true
           done()
+
+    it 'should have an appropriate error with a bad project id', (done)->
+      request.get (base "/projects/not-an-id/time_entries"), _.clone(options), (e,r,b) ->
+        r.statusCode.should.be.equal 404
+        b.error.should.not.be.equal null
+        done()
