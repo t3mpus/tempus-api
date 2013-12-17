@@ -123,7 +123,7 @@ describe 'Time Entries', ->
         if b.length is 0
           throw new Error 'No time_entries to test'
         else
-          _.each b, (t)-> (new TimeEntry t).validate().should.be.true
+          _.every b, (t)-> (new TimeEntry t).validate().should.be.true
           done()
 
     it 'should have an appropriate error with a bad project id', (done)->
