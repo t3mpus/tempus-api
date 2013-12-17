@@ -119,7 +119,7 @@ describe 'Time Entries', ->
     it 'should have time entries associated with the project', (done)->
       request.get (base "/projects/#{testProject.id}/time_entries"), _.clone(options), (e,r,b)->
         r.statusCode.should.be.equal 200
-        b.should.have.propert 'length'
+        b.should.have.property 'length'
         if b.length is 0
           throw new Error 'No time_entries to test'
         else

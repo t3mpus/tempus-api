@@ -66,5 +66,10 @@ class ProjectsController extends BaseController
     t.on 'rollback', ->
       callback new Error "Could not delete project with id #{key}"
 
+  exists: (key, callback) ->
+    findProject = @project.select(@project.id).where(@project.id.equals(key)).limit(1)
+    @query findProject, (err, rows) ->
+      if err then callback(err) else callback null, yes
+
 
 module.exports = ProjectsController.get()
