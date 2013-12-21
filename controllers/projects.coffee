@@ -69,7 +69,10 @@ class ProjectsController extends BaseController
   exists: (key, callback) ->
     findProject = @project.select(@project.id).where(@project.id.equals(key)).limit(1)
     @query findProject, (err, rows) ->
-      if err then callback(err) else callback null, yes
+      if err or rows.length isnt 1
+        callback new Error "#{key} not found"
+      else
+        callback null, yes
 
 
 module.exports = ProjectsController.get()

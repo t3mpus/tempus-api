@@ -127,7 +127,7 @@ describe 'Time Entries', ->
           done()
 
     it 'should have an appropriate error with a bad project id', (done)->
-      request.get (base "/projects/not-an-id/time_entries"), _.clone(options), (e,r,b) ->
+      request.get (base "/projects/999933/time_entries"), _.clone(options), (e,r,b) ->
         r.statusCode.should.be.equal 404
         b.error.should.not.be.equal null
         done()
