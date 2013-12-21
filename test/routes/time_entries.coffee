@@ -131,3 +131,40 @@ describe 'Time Entries', ->
         r.statusCode.should.be.equal 404
         b.error.should.not.be.equal null
         done()
+
+    it 'should delete time entries if project is deleted', (done) ->
+      makeProject testUser.id, (p) ->
+        makeTimeEntry = (seed, cb)->
+          ops = _.clone options
+          ops.body =
+            start: new Date()
+            end: new Date()
+            message: 'I will be deleted very soon!' + seed
+            projectId: p.id
+            userId: testUser.id
+
+          request.post (base "/time_entries"), ops, (e,r,b)->
+            cb null, b
+
+        makeEntries = (num, cb)->
+          async.map [1..num], makeTimeEntry, (err, entries)->
+            entries.length.should.be.equal num
+            cb()
+
+        checkEntries = (num, cb) ->
+          request.get (base "/projects/#{p.id}/time_entries"), _.clone(options), (e,r,b)->
+            r.statusCode.should.be.equal 200
+            b.length.should.equal num
+            cb()
+
+        deleteProject = (project, cb)->
+          request.del (base "/projects/#{p.id}"), _.clone(options), (e,r,b)->
+            r.statusCode.should.be.equal 200
+            cb()
+
+        desiredEntries = 10
+        makeEntries desiredEntries, ()->
+          checkEntries desiredEntries, ()->
+            deleteProject p, ()->
+              checkEntries 0, done
+
