@@ -36,7 +36,11 @@ handler = (app) ->
       if err
         res.send 404, error: "Project with id #{req.params.id} not found"
       else
-        res.send 200
+        TimeEntriesController.deleteForProject req.params.id, (err)->
+          if err
+            res.send 400, error: "Couldn't delete time entries"
+          else
+            res.send 200
 
   app.get '/projects/:id/time_entries', (req, res) ->
     projectId = req.params.id

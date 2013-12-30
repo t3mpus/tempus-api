@@ -1,7 +1,16 @@
 TimeEntriesController = require "#{__dirname}/../../controllers/time_entries"
 TimeEntry = require "#{__dirname}/../../models/time_entry"
 
+_ = require 'underscore'
+
 handler = (app) ->
+
+  app.get '/time_entries', (req, res) ->
+    if typeof req.query.projectId isnt 'undefined'
+      TimeEntriesController.getForProject req.query.projectId, (err, time_entries)->
+        res.send _.map time_entries, (t) -> (new TimeEntry t).publicObject()
+    else
+      res.send 404
 
   app.post '/time_entries', (req, res) ->
     te = new TimeEntry req.body
