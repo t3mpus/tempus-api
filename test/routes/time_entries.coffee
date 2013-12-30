@@ -152,7 +152,7 @@ describe 'Time Entries', ->
             cb()
 
         checkEntries = (num, cb) ->
-          request.get (base "/projects/#{p.id}/time_entries"), _.clone(options), (e,r,b)->
+          request.get (base "/time_entries?projectId=#{p.id}"), _.clone(options), (e,r,b)->
             r.statusCode.should.be.equal 200
             b.length.should.equal num
             cb()
