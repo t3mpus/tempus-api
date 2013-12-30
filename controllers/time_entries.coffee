@@ -1,5 +1,6 @@
 crypto = require 'crypto'
 _ = require 'underscore'
+async = require 'async'
 
 Singleton = require 'singleton'
 Riak = require "#{__dirname}/../db/riak"
@@ -39,6 +40,18 @@ class TimeEntriesController extends Singleton
 
   deleteOne: (key, callback)->
     Riak.getClient().remove @bucket, key, callback
+
+  deleteForProject: (projectId, callback)->
+    client = Riak.getClient()
+    client.query @bucket, {projectId: new String projectId}, (err, keys)=>
+      if err
+        callback err
+      else if keys.length is 0
+        callback()
+      else
+        async.eachLimit keys, 100, (key,cb)=>
+          client.remove @bucket, key, cb
+        , callback
 
   getForProject: (projectId, callback)->
     Riak.getClient().mapreduce.add(
