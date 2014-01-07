@@ -1,7 +1,7 @@
 pg = require 'pg'
 {dev} = require "#{__dirname}/../database"
 devConfig = "postgres://#{dev.user}:#{dev.password}@localhost/#{dev.database}"
-constring = process.env.HEROKU_POSTGRESQL_RED_URL or devConfig
+constring = process.env.HEROKU_POSTGRESQL_NAVY_URL or devConfig
 
 {EventEmitter} = require 'events'
 
