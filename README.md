@@ -47,9 +47,8 @@ Don't freak out. We are using [db-migrate](https://github.com/kunklejr/node-db-m
 is very important that you ensure your **migrations can run up and down!!**
 
 Currently a migration strategy is only present for Development and
-Staging. Production, is what is paying your salary. We will figure
-something out.
+Staging.
 
 ###Credentials
 
-Currently dev/staging credentials are store in git. Keep it that way...
+Currently dev/staging/production credentials **are not** store in git. Keep it that way...
