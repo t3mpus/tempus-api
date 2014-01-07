@@ -1,0 +1,10 @@
+language: node_js
+node_js:
+  - "0.11"
+  - "0.10"
+
+services:
+  - riak
+
+before_script:
+  - psql -c 'create database myapp_test;' -U postgres
