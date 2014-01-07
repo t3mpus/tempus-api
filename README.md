@@ -3,6 +3,10 @@ tempus
 
 Track time effortlessly
 
+Status
+------
+[![Build Status](https://travis-ci.org/t3mpus/tempus.png)](https://travis-ci.org/t3mpus/tempus)
+
 Development
 -----------
 
