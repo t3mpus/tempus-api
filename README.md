@@ -7,6 +7,8 @@ Status
 ------
 [![Build Status](https://travis-ci.org/t3mpus/tempus.png)](https://travis-ci.org/t3mpus/tempus)
 
+[![Dependency Status](https://david-dm.org/t3mpus/tempus.png)](https://david-dm.org/t3mpus/tempus)
+
 Development
 -----------
 
