@@ -5,7 +5,13 @@
     "password": "t3mpus",
     "database": "tempus_dev"
   },
-  "staging": "postgres://nwbtnuuhbjuqgs:cexSwZ6jZiTCgS_lT3AyNC5XBq@ec2-54-221-223-92.compute-1.amazonaws.com:5432/d3dpgloc6m1795",
+  "staging": {
+    "driver": "pg",
+    "user": {"ENV": "HEROKU_PG_USER"},
+    "password": {"ENV": "HEROKU_PG_PASSWORD"},
+    "host": {"ENV": "HEROKU_PG_HOST"},
+    "database": {"ENV": "HEROKU_PG_DB"}
+  },
   "riak": {
     "staging": {
       "password":"d3ab86ca09ac44a7b03e229293681583fd0320dc",
