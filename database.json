@@ -5,6 +5,12 @@
     "password": "t3mpus",
     "database": "tempus_dev"
   },
+  "travis": {
+    "driver": "pg",
+    "user": "postgres",
+    "password": "",
+    "database": "tempus_dev"
+  },
   "staging": {
     "driver": "pg",
     "user": {"ENV": "HEROKU_PG_USER"},
