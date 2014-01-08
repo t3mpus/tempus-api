@@ -7,7 +7,7 @@ services:
   - riak
 
 script:
-  - npm run-script ci-test
+  - sh ci-test.sh
 
 before_script:
-  - psql -c 'create database myapp_test;' -U postgres
+  - psql -c 'create database tempus_dev;' -U postgres
