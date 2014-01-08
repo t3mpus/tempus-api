@@ -6,7 +6,8 @@
   "main": "index.js",
   "scripts": {
     "test": "TESTING=true ./node_modules/.bin/mocha -R spec --compilers coffee:coffee-script --recursive",
-    "start": "./node_modules/.bin/coffee app.coffee"
+    "start": "./node_modules/.bin/coffee app.coffee",
+    "ci-test": "sh ci-test.sh"
   },
   "repository": {
     "type": "git",
