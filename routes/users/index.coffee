@@ -6,7 +6,7 @@ handler = (app)->
 
   app.get '/users', (req, res)->
     UsersController.getAll (err, users)->
-      res.send users: _.map users, (user)-> new User(user).publicObject()
+      res.send _.map users, (user)-> new User(user).publicObject()
 
   app.post '/users', (req, res)->
     user = new User req.body

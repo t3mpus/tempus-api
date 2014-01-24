@@ -11,7 +11,7 @@ handler = (app) ->
       if err
         res.send 400, error: 'Error'
       else
-        res.send projects: _.map projects, (p) -> (new Project p).publicObject()
+        res.send _.map projects, (p) -> (new Project p).publicObject()
 
   app.post '/projects', (req, res) ->
     project = new Project req.body
