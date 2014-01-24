@@ -47,7 +47,7 @@ describe 'Users', ->
       UserTestHelper.validate b
       done()
 
-  it 'cant get each user individually', (done)->
+  it 'can get each user individually', (done)->
     request (base '/users'), _.clone(options), (e,r,b)->
       iterator = (id, cb)->
         request (base "/users/#{id}"), _.clone(options), (e,r,b)->
