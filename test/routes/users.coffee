@@ -27,7 +27,7 @@ describe 'Users', ->
 
   after (done) ->
     request (base '/users'), _.clone(options), (e,r,b)->
-      testUsers = _.filter b.users, (u)->
+      testUsers = _.filter b, (u)->
         return u.firstName is 'Test' and u.lastName is 'User'
       async.each testUsers, (u, cb)->
         request.del (base "/users/#{u.id}"), _.clone(options), cb
@@ -36,9 +36,8 @@ describe 'Users', ->
   it 'Get all Users', (done)->
     request (base '/users'), _.clone(options), (e,r,b)->
       r.statusCode.should.be.equal 200
-      b.should.have.property 'users'
-      should.equal UserTestHelper.users.length <= b.users.length, yes
-      _.each b.users, UserTestHelper.validate
+      should.equal UserTestHelper.users.length <= b.length, yes
+      _.each b, UserTestHelper.validate
       done()
 
   it 'Creates a new user', (done) ->
@@ -55,7 +54,7 @@ describe 'Users', ->
           UserTestHelper.validate b
           cb()
 
-      async.eachLimit _.map(b.users, (u)-> u.id), 100, iterator, done
+      async.eachLimit _.map(b, (u)-> u.id), 100, iterator, done
 
   it 'cant have two users with the same email', (done)->
     t = "testUser#{uuid.v1()}@testuser.com"

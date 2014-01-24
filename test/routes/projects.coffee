@@ -65,8 +65,7 @@ describe 'Projects', ->
   it 'should get all projects', (done)->
     request (base '/projects'), _.clone(options), (e,r,b)->
       r.statusCode.should.be.equal 200
-      b.should.have.property 'projects'
-      _.each b.projects, validProject
+      _.each b, validProject
       done()
 
   it 'should get all projects individually', (done)->
@@ -76,7 +75,7 @@ describe 'Projects', ->
           r.statusCode.should.be.equal 200
           validProject b
           cb()
-      async.each b.projects, iterator, done
+      async.each b, iterator, done
 
 
   it 'should fail when there is a bad user id', (done)->
@@ -88,7 +87,7 @@ describe 'Projects', ->
     request.post (base '/projects'), ops, (e,rp,b)->
       request (base '/projects'), _.clone(options), (e,r,b)->
         found = no
-        for project in b.projects
+        for project in b
           if project.name is 'fake project'
             found = yes
             break
