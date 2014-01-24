@@ -10,7 +10,7 @@ module.exports =
     config.password = process.env.RIAK_PASSWORD
     if config.user and config.password
       config.headers =
-        Authorization: "Basic #{new Buffer("#{conf.user}:#{conf.password}").toString 'base64'}"
+        Authorization: "Basic #{new Buffer("#{config.user}:#{config.password}").toString 'base64'}"
     riakjs.getClient config
 
 
