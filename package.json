@@ -5,7 +5,7 @@
   "private": true,
   "main": "index.js",
   "scripts": {
-    "test": "TESTING=true ./node_modules/.bin/mocha -R spec --compilers coffee:coffee-script --recursive",
+    "test": "TESTING=true ./node_modules/.bin/mocha -R spec --compilers coffee:coffee-script/register --recursive",
     "start": "./node_modules/.bin/coffee app.coffee"
   },
   "repository": {
@@ -24,7 +24,7 @@
     "db-migrate": "~0.6.2"
   },
   "dependencies": {
-    "coffee-script": "~1.6.3",
+    "coffee-script": "~1.7.0",
     "express": "~3.4.7",
     "uuid": "~1.4.1",
     "pg": "~2.11.0",
