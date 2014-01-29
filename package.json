@@ -25,13 +25,13 @@
   },
   "dependencies": {
     "coffee-script": "~1.7.0",
-    "express": "~3.4.7",
+    "express": "~3.4.8",
     "uuid": "~1.4.1",
-    "pg": "~2.11.0",
-    "sql": "~0.34.0",
+    "pg": "~2.11.1",
+    "sql": "~0.35.0",
     "underscore": "~1.5.2",
     "singleton": "~1.0.0",
-    "async": "~0.2.9",
+    "async": "~0.2.10",
     "riak-js": "~0.10.2"
   },
   "engines": {

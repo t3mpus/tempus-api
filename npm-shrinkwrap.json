@@ -14,8 +14,8 @@
       }
     },
     "express": {
-      "version": "3.4.7",
-      "from": "express@~3.4.7",
+      "version": "3.4.8",
+      "from": "express@~3.4.8",
       "dependencies": {
         "connect": {
           "version": "2.12.0",
@@ -91,7 +91,8 @@
         },
         "mkdirp": {
           "version": "0.3.5",
-          "from": "mkdirp@0.3.5"
+          "from": "mkdirp@0.3.5",
+          "resolved": "https://registry.npmjs.org/mkdirp/-/mkdirp-0.3.5.tgz"
         },
         "cookie": {
           "version": "0.1.0",
@@ -138,8 +139,8 @@
       "from": "uuid@~1.4.1"
     },
     "pg": {
-      "version": "2.11.0",
-      "from": "pg@~2.11.0",
+      "version": "2.11.1",
+      "from": "pg@~2.11.1",
       "dependencies": {
         "generic-pool": {
           "version": "2.0.3",
@@ -147,7 +148,8 @@
         },
         "buffer-writer": {
           "version": "1.0.0",
-          "from": "buffer-writer@1.0.0"
+          "from": "buffer-writer@1.0.0",
+          "resolved": "https://registry.npmjs.org/buffer-writer/-/buffer-writer-1.0.0.tgz"
         },
         "pgpass": {
           "version": "0.0.1",
@@ -172,8 +174,8 @@
       }
     },
     "sql": {
-      "version": "0.34.0",
-      "from": "sql@~0.34.0",
+      "version": "0.35.0",
+      "from": "sql@~0.35.0",
       "dependencies": {
         "sliced": {
           "version": "0.0.5",
@@ -194,8 +196,8 @@
       "from": "singleton@~1.0.0"
     },
     "async": {
-      "version": "0.2.9",
-      "from": "async@latest"
+      "version": "0.2.10",
+      "from": "async@~0.2.10"
     },
     "riak-js": {
       "version": "0.10.2",
