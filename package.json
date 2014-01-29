@@ -18,7 +18,7 @@
     "url": "https://github.com/wlaurance/tempus/issues"
   },
   "devDependencies": {
-    "mocha": "~1.17.0",
+    "mocha": "~1.17.1",
     "request": "~2.31.0",
     "should": "~2.1.0",
     "db-migrate": "~0.6.2"
