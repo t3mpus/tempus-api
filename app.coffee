@@ -5,6 +5,7 @@ http = require 'http'
 users = require './routes/users'
 projects = require './routes/projects'
 time_entries = require './routes/time_entries'
+not_found_handler = require './not_found_handler'
 
 done = null
 
@@ -18,6 +19,9 @@ app.get '/', (req, res)-> res.send version:info.version
 users app
 projects app
 time_entries app
+
+app.use app.router
+app.use not_found_handler
 
 port = process.env.PORT || 3000
 
