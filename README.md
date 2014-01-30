@@ -1,13 +1,13 @@
-tempus
+tempus-api
 ======
 
 Track time effortlessly
 
 Status
 ------
-[![Build Status](https://travis-ci.org/t3mpus/tempus.png)](https://travis-ci.org/t3mpus/tempus)
+[![Build Status](https://travis-ci.org/t3mpus/tempus-api.png)](https://travis-ci.org/t3mpus/tempus-api)
 
-[![Dependency Status](https://david-dm.org/t3mpus/tempus.png)](https://david-dm.org/t3mpus/tempus)
+[![Dependency Status](https://david-dm.org/t3mpus/tempus-api.png)](https://david-dm.org/t3mpus/tempus-api)
 
 Development
 -----------
