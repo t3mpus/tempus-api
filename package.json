@@ -33,7 +33,8 @@
     "singleton": "~1.0.0",
     "async": "~0.2.10",
     "riak-js": "~0.10.2",
-    "passport": "~0.2.0"
+    "passport": "~0.2.0",
+    "passport-hawk": "~0.2.0"
   },
   "engines": {
     "node": "0.10.x",
