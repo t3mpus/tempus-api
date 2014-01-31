@@ -1,5 +1,6 @@
 _ = require 'underscore'
 UsersController = require "#{__dirname}/../../controllers/users"
+UserCredentialsController = require "#{__dirname}/../../controllers/user_credentials"
 User = require "#{__dirname}/../../models/user"
 
 handler = (app)->
@@ -33,5 +34,18 @@ handler = (app)->
       else
         res.send 200
 
+  app.get '/users/:id/credentials', (req, res)->
+    UserCredentialsController.getCredentials req.params.id, (err, credentials) ->
+      if err
+        res.send 404, error: "No credentials set for user #{req.parmas.id}"
+      else
+        res.send credentials
+
+  app.post '/users/:id/credentials', (req, res)->
+    UserCredentialsController.makeCredentials req.params.id, (err, credentials)->
+      if err
+        res.send 404, error: err
+      else
+        res.send credentials
 
 module.exports = handler
