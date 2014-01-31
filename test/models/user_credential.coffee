@@ -1,4 +1,4 @@
-UserCredential = require __dirname + "/../../models/user_credential"
+UserCredential = require "#{__dirname}/../../models/user_credential"
 should = require 'should'
 
 describe 'User Credential', ->
@@ -6,8 +6,8 @@ describe 'User Credential', ->
     uc = new UserCredential
       userId: 5
     uc.userId.should.be.equal 5
-    uc.should.have.property 'id'
     uc.should.have.property 'secret'
+    uc.should.have.property 'algorithm', 'sha256'
 
   it 'should allow the generated properties to be passed in', ->
     us = new UserCredential
@@ -16,5 +16,5 @@ describe 'User Credential', ->
       secret: 'super secret key'
 
     us.userId.should.be.equal 5
-    us.id.should.be.equal 1324
     us.secret.should.be.equal 'super secret key'
+    us.should.have.property 'algorithm', 'sha256'
