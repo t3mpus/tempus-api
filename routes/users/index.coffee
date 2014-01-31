@@ -39,13 +39,13 @@ handler = (app)->
       if err
         res.send 404, error: "No credentials set for user #{req.parmas.id}"
       else
-        res.send credentials
+        res.send credentials.publicObject()
 
   app.post '/users/:id/credentials', (req, res)->
     UserCredentialsController.create req.params.id, (err, credentials)->
       if err
         res.send 404, error: err
       else
-        res.send credentials
+        res.send credentials.publicObject()
 
 module.exports = handler
