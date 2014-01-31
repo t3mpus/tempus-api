@@ -19,7 +19,7 @@ testUserId = undefined
 projectsCreated = []
 
 createTestUser = (cb)->
-  ops = _.clone options
+  ops = options()
   ops.body =
     firstName: 'Test'
     lastName: 'ProjectUser'
@@ -30,7 +30,7 @@ createTestUser = (cb)->
     cb null, b.id
 
 createProject = (project, callback)->
-  ops = _.clone options
+  ops = options()
   ops.body = project
   request.post (base '/projects'), ops, (e,r,b)->
     r.statusCode.should.be.equal 200
@@ -39,7 +39,7 @@ createProject = (project, callback)->
     callback()
 
 deleteProject = (project, callback)->
-  ops = _.clone options
+  ops = options()
   request.del (base "/projects/#{project.id}"), ops, (e,r,b)->
     r.statusCode.should.be.equal 200
     callback()
@@ -57,21 +57,21 @@ describe 'Projects', ->
 
   after (done) ->
     async.each projectsCreated, deleteProject, ->
-      ops = _.clone options
+      ops = options()
       request.del (base "/users/#{testUserId}"), ops, (e,r,b)->
         r.statusCode.should.be.equal 200
         done()
 
   it 'should get all projects', (done)->
-    request (base '/projects'), _.clone(options), (e,r,b)->
+    request (base '/projects'), options(), (e,r,b)->
       r.statusCode.should.be.equal 200
       _.each b, validProject
       done()
 
   it 'should get all projects individually', (done)->
-    request (base '/projects'), _.clone(options), (e,r,b)->
+    request (base '/projects'), options(), (e,r,b)->
       iterator = (p, cb)->
-        request (base "/projects/#{p.id}"), _.clone(options), (e,r,b)->
+        request (base "/projects/#{p.id}"), options(), (e,r,b)->
           r.statusCode.should.be.equal 200
           validProject b
           cb()
@@ -79,13 +79,13 @@ describe 'Projects', ->
 
 
   it 'should fail when there is a bad user id', (done)->
-    ops = _.clone options
+    ops = options()
     ops.body =
       createdDate: new Date()
       userId: 'not-valid'
       name: 'fake project'
     request.post (base '/projects'), ops, (e,rp,b)->
-      request (base '/projects'), _.clone(options), (e,r,b)->
+      request (base '/projects'), options(), (e,r,b)->
         found = no
         for project in b
           if project.name is 'fake project'
@@ -96,7 +96,7 @@ describe 'Projects', ->
         done()
 
   it 'should delete projects', (done)->
-    ops = _.clone options
+    ops = options()
     ops.body =
       name: 'deleted-project'
       userId: testUserId
@@ -105,9 +105,9 @@ describe 'Projects', ->
       r.statusCode.should.be.equal 200
       id = b.id
       validProject b
-      request.del (base "/projects/#{id}"), _.clone(options), (e,r,b)->
+      request.del (base "/projects/#{id}"), options(), (e,r,b)->
         r.statusCode.should.be.equal 200
-        request (base "/projects/#{id}"), _.clone(options), (e,r,b)->
+        request (base "/projects/#{id}"), options(), (e,r,b)->
           r.statusCode.should.be.equal 404
           done()
 

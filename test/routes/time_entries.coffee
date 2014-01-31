@@ -15,7 +15,7 @@ testProject = undefined
 timeEntriesCreated = []
 
 makeUser = (cb)->
-  ops = _.clone options
+  ops = options()
   ops.body =
     firstName: 'Test'
     lastName: 'User'
@@ -25,7 +25,7 @@ makeUser = (cb)->
     cb b
 
 makeProject = (userId, cb)->
-  ops = _.clone options
+  ops = options()
   ops.body =
     name: 'test project'
     createdDate: new Date()
@@ -48,18 +48,18 @@ describe 'Time Entries', ->
         {what: 'projects', id:testProject.id}
         {what: 'users', id:testUser.id}
       ], (obj)->
-        request.del (base "/#{obj.what}/#{obj.id}"), _.clone(options), (e,r,b)->
+        request.del (base "/#{obj.what}/#{obj.id}"), options(), (e,r,b)->
           cb(e)
     deleteTimeEntries = (cb)->
       async.each timeEntriesCreated, (e, cb)->
-        request.del (base "/time_entries/#{e.id}"), _.clone(options), (e,r,b)->
+        request.del (base "/time_entries/#{e.id}"), options(), (e,r,b)->
           r.statusCode.should.be.equal 200
           cb e
       , cb
     async.parallel [deleteTimeEntries, deleteUserAndProject], done
 
   it 'should make a time entry', (done)->
-    ops = _.clone options
+    ops = options()
     ops.body =
       start: new Date('May 4 1987')
       end: new Date()
@@ -76,7 +76,7 @@ describe 'Time Entries', ->
       done()
 
   it 'should get a time entry', (done)->
-    ops = _.clone options
+    ops = options()
     ops.body =
       start: new Date('January 1 1994')
       end: new Date()
@@ -90,14 +90,14 @@ describe 'Time Entries', ->
       te = new TimeEntry b
       timeEntriesCreated.push te
       te.validate().should.be.true
-      request (base "/time_entries/#{te.id}"), _.clone(options), (e,r,b)->
+      request (base "/time_entries/#{te.id}"), options(), (e,r,b)->
         r.statusCode.should.be.equal 200
         tegb = new TimeEntry b
         tegb.validate().should.be.true
         done()
 
   it 'should delete a time entry', (done)->
-    ops = _.clone options
+    ops = options()
     ops.body =
       start: new Date('June 18, 2013')
       end: new Date('June 22, 2013')
@@ -109,15 +109,15 @@ describe 'Time Entries', ->
     request.post (base '/time_entries'), ops, (e,r,b)->
       teb = new TimeEntry b
       r.statusCode.should.be.equal 200
-      request.del (base "/time_entries/#{teb.id}"), _.clone(options), (e,r,b)->
+      request.del (base "/time_entries/#{teb.id}"), options(), (e,r,b)->
         r.statusCode.should.be.equal 200
-        request (base "/time_entries/#{teb.id}"), _.clone(options), (e,r,b)->
+        request (base "/time_entries/#{teb.id}"), options(), (e,r,b)->
           r.statusCode.should.be.equal 404
           done()
 
   describe 'in a project', ->
     it 'should have time entries associated with the project', (done)->
-      request.get (base "/projects/#{testProject.id}/time_entries"), _.clone(options), (e,r,b)->
+      request.get (base "/projects/#{testProject.id}/time_entries"), options(), (e,r,b)->
         r.statusCode.should.be.equal 200
         b.should.have.property 'length'
         if b.length is 0
@@ -127,7 +127,7 @@ describe 'Time Entries', ->
           done()
 
     it 'should have an appropriate error with a bad project id', (done)->
-      request.get (base "/projects/999933/time_entries"), _.clone(options), (e,r,b) ->
+      request.get (base "/projects/999933/time_entries"), options(), (e,r,b) ->
         r.statusCode.should.be.equal 404
         b.error.should.not.be.equal null
         done()
@@ -135,7 +135,7 @@ describe 'Time Entries', ->
     it 'should delete time entries if project is deleted', (done) ->
       makeProject testUser.id, (p) ->
         makeTimeEntry = (seed, cb)->
-          ops = _.clone options
+          ops = options()
           ops.body =
             start: new Date()
             end: new Date()
@@ -152,13 +152,13 @@ describe 'Time Entries', ->
             cb()
 
         checkEntries = (num, cb) ->
-          request.get (base "/time_entries?projectId=#{p.id}"), _.clone(options), (e,r,b)->
+          request.get (base "/time_entries?projectId=#{p.id}"), options(), (e,r,b)->
             r.statusCode.should.be.equal 200
             b.length.should.equal num
             cb()
 
         deleteProject = (project, cb)->
-          request.del (base "/projects/#{p.id}"), _.clone(options), (e,r,b)->
+          request.del (base "/projects/#{p.id}"), options(), (e,r,b)->
             r.statusCode.should.be.equal 200
             cb()
 
