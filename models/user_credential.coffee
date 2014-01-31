@@ -7,10 +7,7 @@ class UserCredential extends BaseModel
   constructor: (options) ->
     super options
 
-    @required = ['userid', 'secret', 'algorithm']
-
-    if not @algorithm
-      @algorithm = 'sha256'
+    @required = ['userid', 'secret']
 
     if not @secret
       @genSecret()
