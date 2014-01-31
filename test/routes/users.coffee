@@ -30,7 +30,9 @@ describe 'Users', ->
       testUsers = _.filter b, (u)->
         return u.firstName is 'Test' and u.lastName is 'User'
       async.each testUsers, (u, cb)->
-        request.del (base "/users/#{u.id}"), options(), cb
+        request.del (base "/users/#{u.id}"), options(), (e,r,b)->
+          r.statusCode.should.be.equal 200
+          cb()
       , done
 
   it 'Get all Users', (done)->
