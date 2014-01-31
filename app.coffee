@@ -1,8 +1,11 @@
 express = require 'express'
 passport = require 'passport'
+_ = require 'underscore'
 authentication = require './authentication'
 info = require './package'
 http = require 'http'
+
+require 'express-namespace'
 
 users = require './routes/users'
 projects = require './routes/projects'
@@ -22,9 +25,9 @@ app.use '/api', passport.authenticate(auth_strategy_name, session: no)
 
 app.get '/', (req, res)-> res.send version:info.version
 
-users app
-projects app
-time_entries app
+_.each [users, projects, time_entries], (s) ->
+  app.namespace '/api', ->
+    s app
 
 app.use app.router
 app.use not_found_handler
