@@ -35,14 +35,14 @@ handler = (app)->
         res.send 200
 
   app.get '/users/:id/credentials', (req, res)->
-    UserCredentialsController.getCredentials req.params.id, (err, credentials) ->
+    UserCredentialsController.getOne req.params.id, (err, credentials) ->
       if err
         res.send 404, error: "No credentials set for user #{req.parmas.id}"
       else
         res.send credentials
 
   app.post '/users/:id/credentials', (req, res)->
-    UserCredentialsController.makeCredentials req.params.id, (err, credentials)->
+    UserCredentialsController.create req.params.id, (err, credentials)->
       if err
         res.send 404, error: err
       else
