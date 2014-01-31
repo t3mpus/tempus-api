@@ -1,4 +1,6 @@
 express = require 'express'
+passport = require 'passport'
+authentication = require './authentication'
 info = require './package'
 http = require 'http'
 
@@ -9,10 +11,14 @@ not_found_handler = require './not_found_handler'
 
 done = null
 
+#setup authentication
+auth_strategy_name = authentication passport
+
 app = express()
 
 app.use express.logger() if not process.env.TESTING
 app.use express.bodyParser()
+app.use passport.authenticate(auth_strategy_name, session: no)
 
 app.get '/', (req, res)-> res.send version:info.version
 
