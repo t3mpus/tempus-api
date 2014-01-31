@@ -88,4 +88,6 @@ describe 'Users', ->
         request (base "/users/#{user.id}/credentials"), options(), (e,r,b)->
           r.statusCode.should.be.equal 200
           b.should.have.property 'secret', s
-          done()
+          request.del (base "/users/#{user.id}/credentials"), options(), (e,r,b)->
+            r.statusCode.should.be.equal 200
+            done()
