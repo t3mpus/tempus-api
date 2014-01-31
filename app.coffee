@@ -21,7 +21,7 @@ app = express()
 
 app.use express.logger() if not process.env.TESTING
 app.use express.bodyParser()
-app.use '/api', passport.authenticate(auth_strategy_name, session: no)
+#app.use '/api', passport.authenticate(auth_strategy_name, session: no)
 
 app.get '/', (req, res)-> res.send version:info.version
 
