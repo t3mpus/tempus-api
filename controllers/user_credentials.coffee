@@ -34,11 +34,14 @@ class UsersController extends BaseController
       else
         callback err, new UserCredential rows[0]
 
-  delete: (userId, callback)->
+  deleteSql: (userId)->
     statement = @user_credential
       .delete()
       .where @user_credential.userid.equals userId
       .from @user_credential
+
+  delete: (userId, callback)->
+    statement = @deleteSql userId
 
     @queryWithResult statement, (err, result) ->
       if err

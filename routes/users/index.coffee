@@ -19,11 +19,9 @@ handler = (app)->
           pub_user = user.publicObject()
           UserCredentialsController.create pub_user.id, (err, credentials) ->
             if (err)
-              console.log(err)
               res.send 400, error: 'user credentials error'
             else
               pub_user.credentials = credentials.publicObject()
-              console.log(pub_user)
               res.send pub_user
     else
       res.send 400, error: user.errors()
