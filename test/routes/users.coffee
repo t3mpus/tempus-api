@@ -80,16 +80,3 @@ describe 'Users', ->
       r.statusCode.should.be.equal 404
       done()
 
-  it 'can generate api credentials and retrieve them', (done) ->
-    t = "testUser#{uuid.v1()}@testuser.com"
-    makeUser t, 200, (user)->
-      request.post (base "/users/#{user.id}/credentials"), options(), (e,r,b)->
-        r.statusCode.should.be.equal 200
-        b.should.have.property 'secret'
-        s = b.secret
-        request (base "/users/#{user.id}/credentials"), options(), (e,r,b)->
-          r.statusCode.should.be.equal 200
-          b.should.have.property 'secret', s
-          request.del (base "/users/#{user.id}/credentials"), options(), (e,r,b)->
-            r.statusCode.should.be.equal 200
-            done()
