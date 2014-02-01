@@ -23,4 +23,5 @@ exports.validate = (returnedUser) ->
   doesntHaveProps = _.every privateProps, (property) ->
     typeof returnedUser[property] is 'undefined'
   doesntHaveProps.should.be.true
+  returnedUser.should.not.have.property 'credentials'
 

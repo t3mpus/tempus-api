@@ -46,6 +46,8 @@ describe 'Users', ->
     t = "testUser#{uuid.v1()}@testuser.com"
     makeUser t, 200, (b)->
       UserTestHelper.validate b
+      b.should.have.property 'credentials'
+      b.credentials.should.have.property 'secret'
       done()
 
   it 'can get each user individually', (done)->
