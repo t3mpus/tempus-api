@@ -48,4 +48,11 @@ handler = (app)->
       else
         res.send credentials.publicObject()
 
+  app.delete '/users/:id/credentials', (req, res)->
+    UserCredentialsController.delete req.params.id, (err)->
+      if err
+        res.send 404, error: err
+      else
+        res.send 200
+
 module.exports = handler
