@@ -34,4 +34,19 @@ class UsersController extends BaseController
       else
         callback err, new UserCredential rows[0]
 
+  delete: (userId, callback)->
+    statement = @user_credential
+      .delete()
+      .where @user_credential.userid.equals userId
+      .from @user_credential
+
+    @queryWithResult statement, (err, result) ->
+      if err
+        return callback err
+      if result.rowCount > 0
+        callback()
+      else
+        callback new Error 'no user credential deleted'
+
+
 module.exports = UsersController.get()
