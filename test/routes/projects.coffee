@@ -7,6 +7,7 @@ uuid = require 'uuid'
 startApp = require './../start_app'
 base = require './../base'
 options = require './../options'
+user_test_helper = require './user_test_helper'
 
 validProject = (p)->
   p.should.have.property 'name'
@@ -15,19 +16,8 @@ validProject = (p)->
 
 testProjects = [ {name: 'p1'}, {name: 'p2'} ]
 
-testUserId = undefined
+testUser = undefined
 projectsCreated = []
-
-createTestUser = (cb)->
-  ops = options()
-  ops.body =
-    firstName: 'Test'
-    lastName: 'ProjectUser'
-    email: "testProjectUser#{uuid.v1()}@testProjectUser.com"
-    password: 'testing projects!'
-  testUser = ops.body
-  request.post (base '/users'), ops, (e,r,b)->
-    cb null, b.id
 
 createProject = (project, callback)->
   ops = options()
@@ -47,18 +37,18 @@ deleteProject = (project, callback)->
 describe 'Projects', ->
   before (done) ->
     startApp ->
-      createTestUser (e, id)->
-        testUserId = id
+      user_test_helper.makeUser (user)->
+        testUser = user
         testProjects = _.map testProjects, (p)->
           p.createdDate = new Date()
-          p.userId = id
+          p.userId = user.id
           return p
         async.each testProjects, createProject, done
 
   after (done) ->
     async.each projectsCreated, deleteProject, ->
       ops = options()
-      request.del (base "/users/#{testUserId}"), ops, (e,r,b)->
+      request.del (base "/users/#{testUser.id}"), ops, (e,r,b)->
         r.statusCode.should.be.equal 200
         done()
 
@@ -99,7 +89,7 @@ describe 'Projects', ->
     ops = options()
     ops.body =
       name: 'deleted-project'
-      userId: testUserId
+      userId: testUser.id
       createdDate: new Date()
     request.post (base '/projects'), ops, (e,r,b)->
       r.statusCode.should.be.equal 200
