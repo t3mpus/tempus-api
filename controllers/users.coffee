@@ -23,6 +23,22 @@ class UsersController extends BaseController
       else
         callback err, new User rows[0]
 
+  getOneWithCredentials: (key, callback)->
+    {user_credential} = UserCredentialsController
+    statement = @user
+      .select @user.star(), user_credential.star()
+      .where @user.id.equals key
+      .from(
+        @user
+          .join user_credential
+          .on @user.id.equals user_credential.userid
+      )
+    @query statement, (err, rows)->
+      if err
+        callback err
+      else
+        callback err, new User rows[0]
+
   create: (userParam, callback)->
     statement = (@user.insert userParam.requiredObject()).returning '*'
     @query statement, (err, rows)->
