@@ -6,9 +6,7 @@ HAWK_ALG = 'sha256'
 module.exports = (passport) ->
   strat_name = 'hawk-strategy'
   passport.use strat_name, new HawkStrategy (token, done)->
-    console.log(token)
     UsersController.getOneWithCredentials token, (err, user)->
-      console.log user
       if err
         return done err
       else
