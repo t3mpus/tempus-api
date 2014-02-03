@@ -1,5 +1,6 @@
 _ = require 'underscore'
 UsersController = require "#{__dirname}/../../controllers/users"
+UserCredentialsController = require "#{__dirname}/../../controllers/user_credentials"
 User = require "#{__dirname}/../../models/user"
 
 handler = (app)->
@@ -15,7 +16,13 @@ handler = (app)->
         if err
           res.send 400, error: 'user already exists'
         else
-          res.send user.publicObject()
+          pub_user = user.publicObject()
+          UserCredentialsController.create pub_user.id, (err, credentials) ->
+            if (err)
+              res.send 400, error: 'user credentials error'
+            else
+              pub_user.credentials = credentials.publicObject()
+              res.send pub_user
     else
       res.send 400, error: user.errors()
 
@@ -33,5 +40,25 @@ handler = (app)->
       else
         res.send 200
 
+  app.get '/users/:id/credentials', (req, res)->
+    UserCredentialsController.getOne req.params.id, (err, credentials) ->
+      if err
+        res.send 404, error: "No credentials set for user #{req.parmas.id}"
+      else
+        res.send credentials.publicObject()
+
+  app.post '/users/:id/credentials', (req, res)->
+    UserCredentialsController.create req.params.id, (err, credentials)->
+      if err
+        res.send 404, error: err
+      else
+        res.send credentials.publicObject()
+
+  app.delete '/users/:id/credentials', (req, res)->
+    UserCredentialsController.delete req.params.id, (err)->
+      if err
+        res.send 404, error: err
+      else
+        res.send 200
 
 module.exports = handler

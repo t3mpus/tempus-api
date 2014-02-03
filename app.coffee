@@ -1,6 +1,11 @@
 express = require 'express'
+passport = require 'passport'
+_ = require 'underscore'
+authentication = require './authentication'
 info = require './package'
 http = require 'http'
+
+require 'express-namespace'
 
 users = require './routes/users'
 projects = require './routes/projects'
@@ -9,16 +14,22 @@ not_found_handler = require './not_found_handler'
 
 done = null
 
+#setup authentication
+auth_strategy_name = authentication passport
+
 app = express()
 
 app.use express.logger() if not process.env.TESTING
 app.use express.bodyParser()
+app.use passport.initialize()
+app.use '/api/time_entries', passport.authenticate(auth_strategy_name, session: no)
+app.use '/api/projects', passport.authenticate(auth_strategy_name, session: no)
 
 app.get '/', (req, res)-> res.send version:info.version
 
-users app
-projects app
-time_entries app
+_.each [users, projects, time_entries], (s) ->
+  app.namespace '/api', ->
+    s app
 
 app.use app.router
 app.use not_found_handler

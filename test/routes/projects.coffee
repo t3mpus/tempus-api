@@ -6,7 +6,8 @@ uuid = require 'uuid'
 
 startApp = require './../start_app'
 base = require './../base'
-options = require './../options'
+optionsBase = require './../options'
+user_test_helper = require './user_test_helper'
 
 validProject = (p)->
   p.should.have.property 'name'
@@ -15,22 +16,14 @@ validProject = (p)->
 
 testProjects = [ {name: 'p1'}, {name: 'p2'} ]
 
-testUserId = undefined
+testUser = undefined
 projectsCreated = []
 
-createTestUser = (cb)->
-  ops = _.clone options
-  ops.body =
-    firstName: 'Test'
-    lastName: 'ProjectUser'
-    email: "testProjectUser#{uuid.v1()}@testProjectUser.com"
-    password: 'testing projects!'
-  testUser = ops.body
-  request.post (base '/users'), ops, (e,r,b)->
-    cb null, b.id
+options = (u)->
+  optionsBase u or testUser
 
 createProject = (project, callback)->
-  ops = _.clone options
+  ops = options()
   ops.body = project
   request.post (base '/projects'), ops, (e,r,b)->
     r.statusCode.should.be.equal 200
@@ -39,7 +32,7 @@ createProject = (project, callback)->
     callback()
 
 deleteProject = (project, callback)->
-  ops = _.clone options
+  ops = options()
   request.del (base "/projects/#{project.id}"), ops, (e,r,b)->
     r.statusCode.should.be.equal 200
     callback()
@@ -47,31 +40,31 @@ deleteProject = (project, callback)->
 describe 'Projects', ->
   before (done) ->
     startApp ->
-      createTestUser (e, id)->
-        testUserId = id
+      user_test_helper.makeUser (user)->
+        testUser = user
         testProjects = _.map testProjects, (p)->
           p.createdDate = new Date()
-          p.userId = id
+          p.userId = user.id
           return p
         async.each testProjects, createProject, done
 
   after (done) ->
     async.each projectsCreated, deleteProject, ->
-      ops = _.clone options
-      request.del (base "/users/#{testUserId}"), ops, (e,r,b)->
+      ops = options()
+      request.del (base "/users/#{testUser.id}"), ops, (e,r,b)->
         r.statusCode.should.be.equal 200
         done()
 
   it 'should get all projects', (done)->
-    request (base '/projects'), _.clone(options), (e,r,b)->
+    request (base '/projects'), options(), (e,r,b)->
       r.statusCode.should.be.equal 200
       _.each b, validProject
       done()
 
   it 'should get all projects individually', (done)->
-    request (base '/projects'), _.clone(options), (e,r,b)->
+    request (base '/projects'), options(), (e,r,b)->
       iterator = (p, cb)->
-        request (base "/projects/#{p.id}"), _.clone(options), (e,r,b)->
+        request (base "/projects/#{p.id}"), options(), (e,r,b)->
           r.statusCode.should.be.equal 200
           validProject b
           cb()
@@ -79,13 +72,13 @@ describe 'Projects', ->
 
 
   it 'should fail when there is a bad user id', (done)->
-    ops = _.clone options
+    ops = options()
     ops.body =
       createdDate: new Date()
       userId: 'not-valid'
       name: 'fake project'
     request.post (base '/projects'), ops, (e,rp,b)->
-      request (base '/projects'), _.clone(options), (e,r,b)->
+      request (base '/projects'), options(), (e,r,b)->
         found = no
         for project in b
           if project.name is 'fake project'
@@ -96,18 +89,18 @@ describe 'Projects', ->
         done()
 
   it 'should delete projects', (done)->
-    ops = _.clone options
+    ops = options()
     ops.body =
       name: 'deleted-project'
-      userId: testUserId
+      userId: testUser.id
       createdDate: new Date()
     request.post (base '/projects'), ops, (e,r,b)->
       r.statusCode.should.be.equal 200
       id = b.id
       validProject b
-      request.del (base "/projects/#{id}"), _.clone(options), (e,r,b)->
+      request.del (base "/projects/#{id}"), options(), (e,r,b)->
         r.statusCode.should.be.equal 200
-        request (base "/projects/#{id}"), _.clone(options), (e,r,b)->
+        request (base "/projects/#{id}"), options(), (e,r,b)->
           r.statusCode.should.be.equal 404
           done()
 

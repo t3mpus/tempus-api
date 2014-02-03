@@ -10,3 +10,8 @@ script:
 
 before_script:
   - psql -c 'create database tempus_dev;' -U postgres
+
+branches:
+  only:
+    - master
+    - dev

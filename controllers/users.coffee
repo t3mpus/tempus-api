@@ -1,6 +1,8 @@
 BaseController = require "#{__dirname}/base"
 sql = require 'sql'
+async = require 'async'
 User = require "#{__dirname}/../models/user"
+UserCredentialsController = require "#{__dirname}/../controllers/user_credentials"
 
 class UsersController extends BaseController
 
@@ -21,6 +23,22 @@ class UsersController extends BaseController
       else
         callback err, new User rows[0]
 
+  getOneWithCredentials: (key, callback)->
+    {user_credential} = UserCredentialsController
+    statement = @user
+      .select @user.star(), user_credential.star()
+      .where @user.id.equals key
+      .from(
+        @user
+          .join user_credential
+          .on @user.id.equals user_credential.userid
+      )
+    @query statement, (err, rows)->
+      if err
+        callback err
+      else
+        callback err, new User rows[0]
+
   create: (userParam, callback)->
     statement = (@user.insert userParam.requiredObject()).returning '*'
     @query statement, (err, rows)->
@@ -30,13 +48,24 @@ class UsersController extends BaseController
         callback err, new User rows[0]
 
   deleteOne: (key, callback)->
-    statement = @user.delete().where(@user.id.equals(key))
-    @queryWithResult statement, (err, result)->
-      if err
-        return callback err
-      if result.rowCount > 0
-        callback()
-      else
-        callback new Error 'no user deleted'
+    t = @transaction()
+    deleteUser = @user.delete()
+      .where @user.id.equals key
+    deleteUserCredentials = UserCredentialsController.deleteSql key
+    start = ->
+      async.eachSeries [deleteUserCredentials, deleteUser],
+        (s, cb)->
+          t.query s, () ->
+            cb()
+        , ->
+          t.commit()
+
+    t.on 'begin', start
+    t.on 'error', console.log
+    t.on 'commit', ->
+      callback()
+    t.on 'rollback', ->
+      callback new Error "Could not delete user with id #{key}"
+
 
 module.exports = UsersController.get()

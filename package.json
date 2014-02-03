@@ -32,7 +32,10 @@
     "underscore": "~1.5.2",
     "singleton": "~1.0.0",
     "async": "~0.2.10",
-    "riak-js": "~0.10.2"
+    "riak-js": "~0.10.2",
+    "passport": "~0.2.0",
+    "passport-hawk": "~0.2.0",
+    "express-namespace": "~0.1.1"
   },
   "engines": {
     "node": "0.10.x",
