@@ -7,22 +7,13 @@ uuid = require 'uuid'
 startApp = require './../start_app'
 base = require './../base'
 options = require './../options'
+user_test_helper = require './user_test_helper'
 
 TimeEntry = require "#{__dirname}/../../models/time_entry"
 
 testUser = undefined
 testProject = undefined
 timeEntriesCreated = []
-
-makeUser = (cb)->
-  ops = options()
-  ops.body =
-    firstName: 'Test'
-    lastName: 'User'
-    email: uuid.v1() + 'super-awesome-email@email.com'
-    password: 'keyboard cats'
-  request.post (base '/users'), ops, (e,r,b)->
-    cb b
 
 makeProject = (userId, cb)->
   ops = options()
@@ -36,7 +27,7 @@ makeProject = (userId, cb)->
 describe 'Time Entries', ->
   before (done) ->
     startApp ->
-      makeUser (user)->
+      user_test_helper.makeUser (user)->
         testUser = user
         makeProject user.id, (project)->
           testProject = project
