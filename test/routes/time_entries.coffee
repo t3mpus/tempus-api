@@ -15,12 +15,12 @@ testUser = undefined
 testProject = undefined
 timeEntriesCreated = []
 
-makeProject = (userId, cb)->
-  ops = options()
+makeProject = (user, cb)->
+  ops = options user
   ops.body =
     name: 'test project'
     createdDate: new Date()
-    userId: userId
+    userId: user.id
   request.post (base '/projects'), ops, (e,r,b)->
     cb b
 
@@ -29,7 +29,7 @@ describe 'Time Entries', ->
     startApp ->
       user_test_helper.makeUser (user)->
         testUser = user
-        makeProject user.id, (project)->
+        makeProject user, (project)->
           testProject = project
           done()
 
@@ -124,7 +124,7 @@ describe 'Time Entries', ->
         done()
 
     it 'should delete time entries if project is deleted', (done) ->
-      makeProject testUser.id, (p) ->
+      makeProject testUser, (p) ->
         makeTimeEntry = (seed, cb)->
           ops = options()
           ops.body =
