@@ -6,7 +6,7 @@ uuid = require 'uuid'
 
 startApp = require './../start_app'
 base = require './../base'
-options = require './../options'
+optionsBase = require './../options'
 user_test_helper = require './user_test_helper'
 
 validProject = (p)->
@@ -18,6 +18,9 @@ testProjects = [ {name: 'p1'}, {name: 'p2'} ]
 
 testUser = undefined
 projectsCreated = []
+
+options = (u)->
+  optionsBase u or testUser
 
 createProject = (project, callback)->
   ops = options()
