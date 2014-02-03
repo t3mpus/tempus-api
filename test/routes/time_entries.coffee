@@ -6,7 +6,7 @@ uuid = require 'uuid'
 
 startApp = require './../start_app'
 base = require './../base'
-options = require './../options'
+optionsBase = require './../options'
 user_test_helper = require './user_test_helper'
 
 TimeEntry = require "#{__dirname}/../../models/time_entry"
@@ -14,6 +14,9 @@ TimeEntry = require "#{__dirname}/../../models/time_entry"
 testUser = undefined
 testProject = undefined
 timeEntriesCreated = []
+
+options = (u)->
+  optionsBase u or testUser
 
 makeProject = (user, cb)->
   ops = options user
