@@ -13,6 +13,7 @@ handler = (app) ->
       res.send 404
 
   app.post '/time_entries', (req, res) ->
+    req.body.userId = req.user.id
     te = new TimeEntry req.body
     if te.validate()
       TimeEntriesController.create te, (err, time_entry)->

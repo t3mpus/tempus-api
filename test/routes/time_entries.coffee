@@ -23,7 +23,6 @@ makeProject = (user, cb)->
   ops.body =
     name: 'test project'
     createdDate: new Date()
-    userId: user.id
   request.post (base '/projects'), ops, (e,r,b)->
     cb b
 
@@ -59,7 +58,6 @@ describe 'Time Entries', ->
       end: new Date()
       message: 'I am a wonderful time entry :)'
       projectId: testProject.id
-      userId: testUser.id
     teb = new TimeEntry ops.body
     teb.validate().should.be.true
     request.post (base '/time_entries'), ops, (e,r,b)->
@@ -76,7 +74,6 @@ describe 'Time Entries', ->
       end: new Date()
       message: 'Try and get me!!!'
       projectId: testProject.id
-      userId: testUser.id
     teb = new TimeEntry ops.body
     teb.validate().should.be.true
     request.post (base '/time_entries'), ops, (e,r,b)->
@@ -97,7 +94,6 @@ describe 'Time Entries', ->
       end: new Date('June 22, 2013')
       message: 'I will be deleted very soon!'
       projectId: testProject.id
-      userId: testUser.id
     teb = new TimeEntry ops.body
     teb.validate().should.be.true
     request.post (base '/time_entries'), ops, (e,r,b)->
@@ -135,7 +131,6 @@ describe 'Time Entries', ->
             end: new Date()
             message: 'I will be deleted very soon!' + seed
             projectId: p.id
-            userId: testUser.id
 
           request.post (base "/time_entries"), ops, (e,r,b)->
             cb null, b

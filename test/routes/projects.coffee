@@ -44,7 +44,6 @@ describe 'Projects', ->
         testUser = user
         testProjects = _.map testProjects, (p)->
           p.createdDate = new Date()
-          p.userId = user.id
           return p
         async.each testProjects, createProject, done
 
@@ -70,29 +69,10 @@ describe 'Projects', ->
           cb()
       async.each b, iterator, done
 
-
-  it 'should fail when there is a bad user id', (done)->
-    ops = options()
-    ops.body =
-      createdDate: new Date()
-      userId: 'not-valid'
-      name: 'fake project'
-    request.post (base '/projects'), ops, (e,rp,b)->
-      request (base '/projects'), options(), (e,r,b)->
-        found = no
-        for project in b
-          if project.name is 'fake project'
-            found = yes
-            break
-        found.should.be.equal no
-        rp.statusCode.should.be.equal 400
-        done()
-
   it 'should delete projects', (done)->
     ops = options()
     ops.body =
       name: 'deleted-project'
-      userId: testUser.id
       createdDate: new Date()
     request.post (base '/projects'), ops, (e,r,b)->
       r.statusCode.should.be.equal 200

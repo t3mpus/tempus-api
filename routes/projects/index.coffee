@@ -15,6 +15,7 @@ handler = (app) ->
 
   app.post '/projects', (req, res) ->
     project = new Project req.body
+    project.userId = req.user.id
     if project.validate()
       ProjectsController.create project, (err, project) ->
         if err
