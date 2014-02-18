@@ -30,6 +30,8 @@ class TimeEntriesController extends Singleton
             userId: new String time_entry.userId
             projectId: new String time_entry.projectId
         }, handler
+    else
+      callback new Error "User or Project Id not provided"
 
   getOne: (key, callback)->
     Riak.getClient().get @bucket, key, (err, te, meta)->
