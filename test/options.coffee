@@ -5,6 +5,6 @@ module.exports = (user)->
     obj.hawk =
       credentials:
         key: user.credentials.secret
-        id: user.credentials.userid
+        id: user.credentials.user_identifier
         algorithm: 'sha256'
   obj

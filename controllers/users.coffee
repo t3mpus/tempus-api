@@ -27,7 +27,7 @@ class UsersController extends BaseController
     {user_credential} = UserCredentialsController
     statement = @user
       .select @user.star(), user_credential.star()
-      .where @user.id.equals key
+      .where user_credential.user_identifier.equals key
       .from(
         @user
           .join user_credential
