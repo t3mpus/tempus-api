@@ -10,7 +10,7 @@ require 'express-namespace'
 users = require './routes/users'
 projects = require './routes/projects'
 time_entries = require './routes/time_entries'
-not_found_handler = require './not_found_handler'
+{not_found_handler} = require './handlers'
 
 done = null
 
