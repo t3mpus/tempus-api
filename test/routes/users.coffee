@@ -81,3 +81,16 @@ describe 'Users', ->
       r.statusCode.should.be.equal 404
       done()
 
+  it 'should not be able to access another', (done)->
+    t = "t#{uuid.v1()}@testuser.com"
+    b = "b#{uuid.v1()}@testuser.com"
+    async.map [b,t], (u, cb)->
+      makeUser u, 200, (u)-> cb null, u
+    , (err, users) ->
+      l = users.length
+      async.eachSeries users, (e,cb)->
+        request (base "/users/#{e.id}"), options(users[l--]), (e,r,b)->
+          r.statusCode.should.be.equal 401
+          cb()
+      , done
+
