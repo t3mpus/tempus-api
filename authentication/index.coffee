@@ -1,5 +1,5 @@
 HawkStrategy = require 'passport-hawk'
-UsersController = require './controllers/users'
+UsersController = require '../controllers/users'
 
 HAWK_ALG = 'sha256'
 

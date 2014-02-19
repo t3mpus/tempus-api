@@ -1,7 +1,7 @@
 express = require 'express'
 passport = require 'passport'
 _ = require 'underscore'
-authentication = require './authentication'
+authentication = require './authentication/'
 info = require './package'
 http = require 'http'
 
