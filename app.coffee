@@ -10,7 +10,10 @@ require 'express-namespace'
 users = require './routes/users'
 projects = require './routes/projects'
 time_entries = require './routes/time_entries'
-{not_found_handler} = require './handlers'
+{
+  not_found_handler
+  uncaught_error_handler
+} = require './handlers'
 
 done = null
 
@@ -33,6 +36,7 @@ _.each [users, projects, time_entries], (s) ->
 
 app.use app.router
 app.use not_found_handler
+app.use uncaught_error_handler
 
 port = process.env.PORT || 3000
 
