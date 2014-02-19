@@ -7,15 +7,21 @@ class UserCredential extends BaseModel
   constructor: (options) ->
     super options
 
-    @required = ['userid', 'secret']
+    @required = ['userid', 'secret', 'user_identifier']
 
     if not @secret
       @genSecret()
+
+    if not @user_identifier
+      @genIdentifier()
 
   genSecret: () ->
     sha = crypto.createHash 'sha256'
     sha.update "#{uuid.v1()}"
     @secret = sha.digest 'hex'
+
+  genIdentifier: () ->
+    @user_identifier = uuid.v1()
 
 
 module.exports = UserCredential
