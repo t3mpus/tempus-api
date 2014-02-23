@@ -49,8 +49,7 @@ describe 'Projects', ->
 
   after (done) ->
     async.each projectsCreated, deleteProject, ->
-      ops = options()
-      request.del (base "/users/#{testUser.id}"), ops, (e,r,b)->
+      request.del (base "/users/#{testUser.id}"), options(), (e,r,b)->
         r.statusCode.should.be.equal 200
         done()
 
