@@ -93,7 +93,7 @@ describe 'Users', ->
       users = _.without(users, differentUser)
       async.eachSeries users, (e,cb)->
         request (base "/users/#{e.id}"), options(differentUser), (e,r,b)->
-          r.statusCode.should.be.equal 401
+          r.statusCode.should.be.equal 403
           cb()
       , done
 
