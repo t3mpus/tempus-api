@@ -9,6 +9,8 @@ base = require './../base'
 options = require './../options'
 UserTestHelper = require './user_test_helper'
 
+testUsers = []
+
 makeUser = (testUserEmail, status, cb)->
   ops = options()
   ops.body =
@@ -19,6 +21,7 @@ makeUser = (testUserEmail, status, cb)->
   request.post (base '/users'), ops, (e,r,b)->
     r.statusCode.should.be.equal status
     UserTestHelper.validate b if r.statusCode is 200
+    testUsers.push b if r.statusCode is 200
     cb(b)
 
 describe 'Users', ->
@@ -26,14 +29,11 @@ describe 'Users', ->
     startApp -> done()
 
   after (done) ->
-    request (base '/users'), options(), (e,r,b)->
-      testUsers = _.filter b, (u)->
-        return u.firstName is 'Test' and u.lastName is 'User'
-      async.each testUsers, (u, cb)->
-        request.del (base "/users/#{u.id}"), options(), (e,r,b)->
-          r.statusCode.should.be.equal 200
-          cb()
-      , done
+    async.each testUsers, (u, cb)->
+      request.del (base "/users/#{u.id}"), options(u), (e,r,b)->
+        r.statusCode.should.be.equal 200
+        cb()
+    , done
 
   it.skip 'Get all Users', (done)->
     #Will require an Admin account
@@ -51,7 +51,7 @@ describe 'Users', ->
       b.credentials.should.have.property 'secret'
       done()
 
-  it 'can get each user individually', (done)->
+  it.skip 'can get each user individually', (done)->
     request (base '/users'), options(), (e,r,b)->
       iterator = (u, cb)->
         request (base "/users/#{u.id}"), options(u), (e,r,b)->
@@ -73,23 +73,26 @@ describe 'Users', ->
       request.del (base "/users/#{user.id}"), options(user), (e,r,b)->
         r.statusCode.should.be.equal 200
         request (base "/users/#{user.id}"), options(user), (e,r,b)->
-          r.statusCode.should.be.equal 404
+          testUsers = _.without(testUsers, user)
+          r.statusCode.should.be.equal 401
           done()
 
   it 'can handle a non existent user', (done)->
     request (base "/users/not-an-id"), options(), (e,r,b)->
-      r.statusCode.should.be.equal 404
+      r.statusCode.should.be.equal 401
       done()
 
   it 'should not be able to access another', (done)->
     t = "t#{uuid.v1()}@testuser.com"
     b = "b#{uuid.v1()}@testuser.com"
-    async.map [b,t], (u, cb)->
+    d = "d#{uuid.v1()}@testuser.com"
+    async.map [b,t, d], (u, cb)->
       makeUser u, 200, (u)-> cb null, u
     , (err, users) ->
-      l = users.length
+      differentUser = _.last(users)
+      users = _.without(users, differentUser)
       async.eachSeries users, (e,cb)->
-        request (base "/users/#{e.id}"), options(users[l--]), (e,r,b)->
+        request (base "/users/#{e.id}"), options(differentUser), (e,r,b)->
           r.statusCode.should.be.equal 401
           cb()
       , done

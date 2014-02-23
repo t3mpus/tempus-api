@@ -32,7 +32,9 @@ app.get '/', (req, res)-> res.send version:info.version
 
 _.each [users, projects, time_entries], (s) ->
   app.namespace '/api', ->
-    s app
+    s app,
+      passport : passport
+      strategy : auth_strategy_name
 
 app.use app.router
 app.use not_found_handler
