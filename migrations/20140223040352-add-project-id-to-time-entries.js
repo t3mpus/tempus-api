@@ -5,7 +5,7 @@ var dbname = "time_entries"
 
 exports.up = function(db, callback) {
   db.runSql(
-    'alter table ' + dbname + ' add column "projectId" integer references projects(id)',
+    'alter table ' + dbname + ' add column "projectId" integer not null references projects(id)',
     callback
   )
 };
