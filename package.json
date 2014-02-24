@@ -1,6 +1,6 @@
 {
   "name": "tempus",
-  "version": "0.1.7",
+  "version": "0.1.8",
   "description": "Tempus REST API",
   "private": true,
   "main": "index.js",
