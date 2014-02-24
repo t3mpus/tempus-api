@@ -58,8 +58,6 @@ describe 'Time Entries', ->
       end: new Date()
       message: 'I am a wonderful time entry :)'
       projectId: testProject.id
-    teb = new TimeEntry ops.body
-    teb.validate().should.be.true
     request.post (base '/time_entries'), ops, (e,r,b)->
       r.statusCode.should.be.equal 200
       te = new TimeEntry b
@@ -74,8 +72,6 @@ describe 'Time Entries', ->
       end: new Date()
       message: 'Try and get me!!!'
       projectId: testProject.id
-    teb = new TimeEntry ops.body
-    teb.validate().should.be.true
     request.post (base '/time_entries'), ops, (e,r,b)->
       r.statusCode.should.be.equal 200
       te = new TimeEntry b
@@ -94,8 +90,6 @@ describe 'Time Entries', ->
       end: new Date('June 22, 2013')
       message: 'I will be deleted very soon!'
       projectId: testProject.id
-    teb = new TimeEntry ops.body
-    teb.validate().should.be.true
     request.post (base '/time_entries'), ops, (e,r,b)->
       teb = new TimeEntry b
       r.statusCode.should.be.equal 200

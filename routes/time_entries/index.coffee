@@ -26,7 +26,7 @@ handler = (app) ->
 
   app.get '/time_entries/:id', (req, res) ->
     TimeEntriesController.getOne req.params.id, (err, time_entry)->
-      if err
+      if err or not time_entry.validate()
         res.send 404, error: "#{req.params.id} not found"
       else
         res.send time_entry.publicObject()
