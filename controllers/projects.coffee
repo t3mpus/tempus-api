@@ -3,6 +3,8 @@ Project = require "#{__dirname}/../models/project"
 sql = require 'sql'
 async = require 'async'
 
+TimeEntriesController = require "#{__dirname}/time_entries"
+
 class ProjectsController extends BaseController
   project: sql.define
     name: 'projects'
@@ -59,7 +61,9 @@ class ProjectsController extends BaseController
         , ->
           t.commit()
 
-    t.on 'begin', start
+    t.on 'begin', =>
+      TimeEntriesController.deleteForProject key, ()->
+        start()
     t.on 'error', console.log
     t.on 'commit', ->
       callback()
