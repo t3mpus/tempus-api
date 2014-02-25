@@ -49,15 +49,14 @@ describe 'Users', ->
       b.credentials.should.have.property 'secret'
       done()
 
-  it.skip 'can get each user individually', (done)->
-    request (base '/users'), options(), (e,r,b)->
-      iterator = (u, cb)->
-        request (base "/users/#{u.id}"), options(u), (e,r,b)->
-          r.statusCode.should.be.equal 200
-          UserTestHelper.validate b
-          cb()
+  it 'can get each user individually', (done)->
+    iterator = (u, cb)->
+      request (base "/users/#{u.id}"), options(u), (e,r,b)->
+        r.statusCode.should.be.equal 200
+        UserTestHelper.validate b
+        cb()
 
-      async.eachLimit b, 100, iterator, done
+    async.eachLimit testUsers, 100, iterator, done
 
   it 'cant have two users with the same email', (done)->
     t = "testUser#{uuid.v1()}@testuser.com"
