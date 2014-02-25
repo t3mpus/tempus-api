@@ -18,6 +18,17 @@ class ProjectsController extends BaseController
     statement = @project.select(@project.star()).from(@project)
     @query statement, callback
 
+  getProjectsForUser: (userId, callback) ->
+    statement = @project
+                .select @project.star(), @usersprojects.star()
+                .where(@usersprojects.userid.equals userId)
+                .from(
+                  @project
+                    .join @usersprojects
+                    .on @project.id.equals @usersprojects.projectid
+                )
+    @query statement, callback
+
   getOne: (key, callback)->
     statement = @project.select(@project.star()).from(@project)
       .where(@project.id.equals key)

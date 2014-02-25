@@ -7,7 +7,7 @@ _ = require 'underscore'
 handler = (app) ->
 
   app.get '/projects', (req, res) ->
-    ProjectsController.getAll (err, projects) ->
+    ProjectsController.getProjectsForUser req.user.id, (err, projects) ->
       if err
         res.send 400, error: 'Error'
       else
