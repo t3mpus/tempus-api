@@ -35,12 +35,10 @@ describe 'Users', ->
         cb()
     , done
 
-  it.skip 'Get all Users', (done)->
+  it 'Get all Users', (done)->
     #Will require an Admin account
     request (base '/users'), options(), (e,r,b)->
-      r.statusCode.should.be.equal 200
-      should.equal UserTestHelper.users.length <= b.length, yes
-      _.each b, UserTestHelper.validate
+      r.statusCode.should.be.equal 404
       done()
 
   it 'Creates a new user', (done) ->
