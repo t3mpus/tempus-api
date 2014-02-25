@@ -19,10 +19,6 @@ handler = (app, {passport, strategy})->
     else
       res.send 403
 
-  app.get '/users', (req, res)->
-    UsersController.getAll (err, users)->
-      res.send _.map users, (user)-> new User(user).publicObject()
-
   app.post '/users', (req, res)->
     user = new User req.body
     if user.validate()
