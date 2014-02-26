@@ -34,7 +34,7 @@ handler = (app, {passport, strategy})->
               pub_user.credentials = credentials.publicObject()
               res.send pub_user
     else
-      res.send 400, error: user.errors()
+      res.send 400, error: "could not create user"
 
   app.get '/users/:id', auth(), protect, (req, res)->
     UsersController.getOne req.params.id, (err, user)->

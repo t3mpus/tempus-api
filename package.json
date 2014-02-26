@@ -34,7 +34,8 @@
     "async": "~0.2.10",
     "passport": "~0.2.0",
     "passport-hawk": "~0.2.0",
-    "express-namespace": "~0.1.1"
+    "express-namespace": "~0.1.1",
+    "bcrypt": "^0.7.7"
   },
   "engines": {
     "node": "0.10.x",
