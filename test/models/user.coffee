@@ -22,7 +22,6 @@ describe 'User Model', ->
     testuser = makeTestUser()
     testuser.makeCredentials 'password!@#$'
     testuser.should.have.property 'hash'
-    testuser.should.have.property 'salt'
     testuser.should.not.have.property 'password'
     testuser.validate().should.be.true
 
@@ -33,6 +32,5 @@ describe 'User Model', ->
       email: 'test@user.com'
       password: 'fakepassword'
     testuser.should.have.property 'hash'
-    testuser.should.have.property 'salt'
     testuser.should.not.have.property 'password'
     testuser.validate().should.be.true

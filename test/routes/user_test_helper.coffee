@@ -37,4 +37,5 @@ exports.makeUser = (callback) ->
     email: uuid.v1() + 'super-awesome-email@email.com'
     password: 'keyboard cats'
   request.post (base '/users'), ops, (e,r,b)->
+    r.statusCode.should.be.equal 200
     callback b
