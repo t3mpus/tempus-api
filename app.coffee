@@ -23,7 +23,7 @@ auth_strategy_name = authentication passport
 app = express()
 
 app.use express.logger() if not process.env.TESTING
-app.use express.bodyParser()
+app.use express.json()
 app.use passport.initialize()
 app.use '/api/time_entries', passport.authenticate(auth_strategy_name, session: no)
 app.use '/api/projects', passport.authenticate(auth_strategy_name, session: no)
