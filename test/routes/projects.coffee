@@ -83,4 +83,9 @@ describe 'Projects', ->
           r.statusCode.should.be.equal 404
           done()
 
+  it 'cannot delete a bad id project', (done)->
+    request.del (base "/projects/#{Number.MAX_VALUE}"), options(), (e,r,b)->
+      r.statusCode.should.be.equal 404
+      done()
+
 
