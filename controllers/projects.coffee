@@ -75,7 +75,7 @@ class ProjectsController extends BaseController
     t.on 'begin', =>
       TimeEntriesController.deleteForProject key, ()->
         start()
-    t.on 'error', console.log
+    t.on 'error', callback
     t.on 'commit', ->
       callback()
     t.on 'rollback', ->
