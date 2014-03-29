@@ -61,20 +61,20 @@ class ProjectsController extends BaseController
 
 
   deleteOne: (key, callback)->
+    {time_entry} = TimeEntriesController
+    deleteProjectTimeEntries = time_entry.delete().where(time_entry.projectId.equals(key))
     deleteProject = @project.delete().where(@project.id.equals(key))
     deleteUsersProjectsRows = @usersprojects.delete().where(@usersprojects.projectid.equals key)
     t = @transaction()
     start = ->
-      async.eachSeries [deleteUsersProjectsRows, deleteProject],
+      async.eachSeries [deleteProjectTimeEntries, deleteUsersProjectsRows, deleteProject],
         (s, cb)->
           t.query s, ()->
             cb()
         , ->
           t.commit()
 
-    t.on 'begin', =>
-      TimeEntriesController.deleteForProject key, ()->
-        start()
+    t.on 'begin', start
     t.on 'error', callback
     t.on 'commit', ->
       callback()
