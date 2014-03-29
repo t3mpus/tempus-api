@@ -29,7 +29,7 @@ class Transaction extends EventEmitter
     statement = if typeof statement.toQuery is 'function' then statement.toQuery() else statement
     @client.query statement, (err, rows) =>
       if err
-        @emit 'error', err
+        @rollback()
       else
         cb rows
 
