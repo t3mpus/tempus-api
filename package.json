@@ -21,7 +21,7 @@
     "mocha": "~1.17.1",
     "request": "~2.31.0",
     "should": "~2.1.0",
-    "db-migrate": "~0.6.2"
+    "db-migrate": "^0.6.4"
   },
   "dependencies": {
     "coffee-script": "~1.7.0",
