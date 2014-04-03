@@ -14,7 +14,7 @@ exports.up = (db, callback) ->
       "projectId" uuid NOT NULL,
       "message" character varying,
       "start" timestamptz,
-      "end" timestatmptz,
+      "end" timestamptz,
       "duration" real
     )
   """
