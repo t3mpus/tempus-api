@@ -10,7 +10,7 @@ class UsersController extends BaseController
 
   create: (userId, callback)->
     userCredential = new UserCredential
-      userid: userId
+      userId: userId
     statement = @user_credential
       .insert(userCredential.requiredObject())
       .returning '*'
@@ -24,7 +24,7 @@ class UsersController extends BaseController
   getOne: (userId, callback)->
     statement = @user_credential
       .select @user_credential.star()
-      .where @user_credential.userid.equals userId
+      .where @user_credential.userId.equals userId
       .limit 1
       .from @user_credential
 
@@ -37,7 +37,7 @@ class UsersController extends BaseController
   deleteSql: (userId)->
     statement = @user_credential
       .delete()
-      .where @user_credential.userid.equals userId
+      .where @user_credential.userId.equals userId
       .from @user_credential
 
   delete: (userId, callback)->

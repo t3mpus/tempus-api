@@ -31,7 +31,7 @@ class UsersController extends BaseController
       .from(
         @user
           .join user_credential
-          .on @user.id.equals user_credential.userid
+          .on @user.id.equals user_credential.userId
       )
     @query statement, (err, rows)->
       if err

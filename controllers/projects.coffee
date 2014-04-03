@@ -12,7 +12,7 @@ class ProjectsController extends BaseController
 
   usersprojects: sql.define
     name: 'usersprojects'
-    columns: ['userid', 'projectid']
+    columns: ['userId', 'projectId']
 
   getAll: (callback)->
     statement = @project.select(@project.star()).from(@project)
@@ -21,11 +21,11 @@ class ProjectsController extends BaseController
   getProjectsForUser: (userId, callback) ->
     statement = @project
                 .select @project.star(), @usersprojects.star()
-                .where(@usersprojects.userid.equals userId)
+                .where(@usersprojects.userId.equals userId)
                 .from(
                   @project
                     .join @usersprojects
-                    .on @project.id.equals @usersprojects.projectid
+                    .on @project.id.equals @usersprojects.projectId
                 )
     @query statement, callback
 
@@ -39,15 +39,15 @@ class ProjectsController extends BaseController
         callback err, new Project rows[0]
 
   create: (spec, callback)->
-    userid = spec.userId
-    if not userid
+    userId = spec.userId
+    if not userId
       return callback new Error 'UserId is required'
     t = @transaction()
     start = =>
       statementNewProject = (@project.insert spec.requiredObject()).returning '*'
       t.query statementNewProject, (results) =>
         project = new Project results?.rows[0]
-        statementNewUsersProject = (@usersprojects.insert {userid:userid, projectid: project.id})
+        statementNewUsersProject = (@usersprojects.insert {userId:userId, projectId: project.id})
         t.query statementNewUsersProject, ()->
           t.commit project
 
@@ -64,7 +64,7 @@ class ProjectsController extends BaseController
     {time_entry} = TimeEntriesController
     deleteProjectTimeEntries = time_entry.delete().where(time_entry.projectId.equals(key))
     deleteProject = @project.delete().where(@project.id.equals(key))
-    deleteUsersProjectsRows = @usersprojects.delete().where(@usersprojects.projectid.equals key)
+    deleteUsersProjectsRows = @usersprojects.delete().where(@usersprojects.projectId.equals key)
     t = @transaction()
     start = ->
       async.eachSeries [deleteProjectTimeEntries, deleteUsersProjectsRows, deleteProject],

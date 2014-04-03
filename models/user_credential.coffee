@@ -7,7 +7,7 @@ class UserCredential extends BaseModel
   constructor: (options) ->
     super options
 
-    @required = ['userid', 'secret', 'user_identifier']
+    @required = ['userId', 'secret', 'user_identifier']
 
     if not @secret
       @genSecret()
