@@ -12,7 +12,7 @@ handler = (app, {passport, strategy})->
     auth_id = req.user.id
     req_id = req.params.id
     if auth_id and req_id
-      if Number(auth_id) is Number(req_id)
+      if auth_id is req_id
         next()
       else
         res.send 403
