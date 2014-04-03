@@ -11,7 +11,7 @@ class ProjectsController extends BaseController
     columns: (new Project).columns()
 
   usersprojects: sql.define
-    name: 'usersprojects'
+    name: 'users_projects'
     columns: ['userId', 'projectId']
 
   getAll: (callback)->

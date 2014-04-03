@@ -5,7 +5,7 @@ UserCredential = require "#{__dirname}/../models/user_credential"
 class UsersController extends BaseController
 
   user_credential: sql.define
-    name: 'usercredentials'
+    name: 'user_credentials'
     columns: (new UserCredential).columns()
 
   create: (userId, callback)->
