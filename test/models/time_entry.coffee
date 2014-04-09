@@ -22,6 +22,14 @@ describe 'TimeEntry Model', ->
     t.message.should.be.equal 'message goes here'
     t.validate().should.be.true
 
+  it 'should validate with duration', ->
+    t = new TimeEntry
+      duration: 40.0
+      message: 'blah'
+      projectId: 'someprojectId'
+      userId: 'someuserid'
+    t.validate().should.be.true
+
   it 'should not validate', ->
     t = new TimeEntry
       start: 'not a date'
