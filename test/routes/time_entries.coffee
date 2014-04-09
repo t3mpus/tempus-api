@@ -65,6 +65,19 @@ describe 'Time Entries', ->
       te.validate().should.be.true
       done()
 
+  it 'should make a time entry with only duration', (done)->
+    ops = options()
+    ops.body =
+      duration: 40.5
+      message: 'check yourself before you wreck yourself'
+      projectId: testProject.id
+    request.post (base '/time_entries'), ops, (e,r,b)->
+      r.statusCode.should.be.equal 200
+      te = new TimeEntry b
+      timeEntriesCreated.push te
+      te.validate().should.be.true
+      done()
+
   it 'should get a time entry', (done)->
     ops = options()
     ops.body =
