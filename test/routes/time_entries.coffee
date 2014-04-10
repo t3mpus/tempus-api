@@ -87,6 +87,16 @@ describe 'Time Entries', ->
       r.statusCode.should.be.equal 400
       done()
 
+  it 'should not process a te with a negative duration', (done)->
+    ops = options()
+    ops.body =
+      message: 'check yourself before you wreck yourself'
+      projectId: testProject.id
+      duration: -300
+    request.post (base '/time_entries'), ops, (e,r,b)->
+      r.statusCode.should.be.equal 400
+      done()
+
   it 'should get a time entry', (done)->
     ops = options()
     ops.body =
