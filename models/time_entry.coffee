@@ -3,7 +3,8 @@ BaseModel = require './base'
 class TimeEntry extends BaseModel
   constructor: (props) ->
     super props
-    @required = ['start', 'end', 'message', 'projectId', 'userId']
+    @required = ['message', 'projectId', 'userId']
+    @atLeastOne = [['start', 'end'], 'duration']
 
     @validator =
       start: ()=>
