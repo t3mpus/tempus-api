@@ -41,7 +41,7 @@ class Base
     _.every @required, (property) =>
       r[property] = @[property]
 
-    _.every @optional(), (p)=>
+    _.each @optional(), (p)=>
       if @[p]
         r[p] = @[p]
     r
@@ -55,7 +55,7 @@ class Base
       _.every @required, (property) =>
         r[property] = @[property]
 
-      _.every @optional(), (p)=>
+      _.each @optional(), (p)=>
         if @[p]
           r[p] = @[p]
 
