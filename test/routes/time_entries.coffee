@@ -78,6 +78,15 @@ describe 'Time Entries', ->
       te.validate().should.be.true
       done()
 
+  it 'should not be able to insert a te without duration or start and end', (done)->
+    ops = options()
+    ops.body =
+      message: 'check yourself before you wreck yourself'
+      projectId: testProject.id
+    request.post (base '/time_entries'), ops, (e,r,b)->
+      r.statusCode.should.be.equal 400
+      done()
+
   it 'should get a time entry', (done)->
     ops = options()
     ops.body =
