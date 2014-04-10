@@ -40,6 +40,10 @@ class Base
     r = {}
     _.every @required, (property) =>
       r[property] = @[property]
+
+    _.every @optional(), (p)=>
+      if @[p]
+        r[p] = @[p]
     r
 
   publicObject: (addIns = {})->
@@ -50,6 +54,11 @@ class Base
     else
       _.every @required, (property) =>
         r[property] = @[property]
+
+      _.every @optional(), (p)=>
+        if @[p]
+          r[p] = @[p]
+
     r.id = @id if typeof @id isnt 'undefined'
     r
 
