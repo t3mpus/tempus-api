@@ -27,14 +27,15 @@
     "coffee-script": "~1.7.0",
     "express": "~3.4.8",
     "uuid": "~1.4.1",
-    "pg": "~2.11.1",
-    "sql": "~0.35.0",
+    "pg": "^3.0.3",
+    "sql": "^0.38.0",
     "underscore": "~1.5.2",
     "singleton": "~1.0.0",
     "async": "~0.2.10",
     "passport": "~0.2.0",
     "passport-hawk": "~0.2.0",
-    "bcrypt": "^0.7.7"
+    "bcrypt": "^0.7.7",
+    "request": "^2.34.0"
   },
   "engines": {
     "node": "0.10.x",

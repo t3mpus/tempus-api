@@ -168,11 +168,12 @@ describe('#parseLine()', function(){
         });
     });
 
-    it('should ignore too short and too long lines', function(){
+    it('should ignore too short lines', function(){
         var tests = [
             '::::' ,
             'host:port' ,
-            'host:port:database:user:pass:some:thing:else'
+            'host:port:database' ,
+            'host:port:database:'
         ];
 
         tests.forEach(function(line){

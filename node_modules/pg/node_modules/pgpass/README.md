@@ -5,7 +5,7 @@
 ## Install
 
 ```sh
-npm install --save hoegaarden/pgpass
+npm install pgpass
 ```
 
 ## Usage
@@ -17,8 +17,6 @@ var connInfo = {
   'user' : 'the_user_name' ,
 };
 
-
-// ---- async ----
 pgPass(connInfo, function(pass){
   conn_info.password = pass;
   // connect to postgresql server
@@ -27,7 +25,7 @@ pgPass(connInfo, function(pass){
 
 ## Description
 
-This module tries to read the `~/.pgpass` file (or the equivalent for windows systems). If the environment variable `PGPASSFILE` is set, this file is used instead. If everything goes right, the password from said file is to the callback; if the password cannot be read `undefined` is passed to the callback.
+This module tries to read the `~/.pgpass` file (or the equivalent for windows systems). If the environment variable `PGPASSFILE` is set, this file is used instead. If everything goes right, the password from said file is passed to the callback; if the password cannot be read `undefined` is passed to the callback.
 
 Cases where `undefined` is returned:
 
@@ -36,7 +34,12 @@ Cases where `undefined` is returned:
 - for non windows systems: the file is write-/readable by the group or by other users
 - there is no matching line for the given connection info
 
-The goal of this package is to get included in the `node-postgresql` module to get the same behaviour for the javascript client as for the native client.
+There should be no need to use this module directly; it is already included in `node-postgresq`.
+
+## Configuration
+
+The module reads the environment variable `PGPASS_NO_DEESCAPE` to decide if the the read tokens from the password file should be de-escaped or not. Default is to do de-escaping. For further information on this see [this commit](https://github.com/postgres/postgres/commit/8d15e3ec4fcb735875a8a70a09ec0c62153c3329).
+
 
 ## Tests
 
