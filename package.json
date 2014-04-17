@@ -24,18 +24,20 @@
     "db-migrate": "^0.6.4"
   },
   "dependencies": {
-    "coffee-script": "~1.7.0",
-    "express": "~3.4.8",
+    "coffee-script": "^1.7.1",
+    "express": "^3.4.8",
     "uuid": "~1.4.1",
     "pg": "^3.0.3",
     "sql": "^0.38.0",
-    "underscore": "~1.5.2",
+    "underscore": "^1.5.2",
     "singleton": "~1.0.0",
-    "async": "~0.2.10",
+    "async": "^0.2.10",
     "passport": "~0.2.0",
     "passport-hawk": "~0.2.0",
     "bcrypt": "^0.7.7",
-    "request": "^2.34.0"
+    "request": "^2.31.0",
+    "should": "^2.1.1",
+    "mocha": "^1.17.1"
   },
   "engines": {
     "node": "0.10.x",
