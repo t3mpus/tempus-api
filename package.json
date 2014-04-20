@@ -25,11 +25,11 @@
   },
   "dependencies": {
     "coffee-script": "^1.7.1",
-    "express": "^3.4.8",
+    "express": "^3.5.1",
     "uuid": "~1.4.1",
     "pg": "^3.0.3",
     "sql": "^0.38.0",
-    "underscore": "^1.5.2",
+    "underscore": "^1.6.0",
     "singleton": "~1.0.0",
     "async": "^0.2.10",
     "passport": "~0.2.0",
